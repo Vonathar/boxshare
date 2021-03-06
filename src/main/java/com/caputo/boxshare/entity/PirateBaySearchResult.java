@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   "id",
   "name",
+  "info_hash",
   "seeders",
   "size",
   "username",
@@ -21,6 +22,9 @@ public class PirateBaySearchResult {
 
   @JsonProperty("name")
   private String name;
+
+  @JsonProperty("info_hash")
+  private String infoHash;
 
   @JsonProperty("seeders")
   private String seeders;
@@ -42,6 +46,11 @@ public class PirateBaySearchResult {
   @JsonProperty("name")
   public String getName() {
     return name;
+  }
+
+  @JsonProperty("info_hash")
+  public String getInfoHash() {
+    return infoHash;
   }
 
   @JsonProperty("seeders")
