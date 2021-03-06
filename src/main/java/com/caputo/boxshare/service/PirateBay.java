@@ -44,6 +44,12 @@ public class PirateBay {
     return searchResult;
   }
 
+  /**
+   * Fetches the magnet link for a given search result.
+   *
+   * @param searchResult the search result from which the magnet link is built.
+   * @return the magnet link of the search result.
+   */
   public String getMagnet(PirateBaySearchResult searchResult) {
     return String.format("magnet:?xt=urn:btih:%s", searchResult.getInfoHash());
   }
