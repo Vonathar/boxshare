@@ -43,4 +43,8 @@ public class PirateBay {
     }
     return searchResult;
   }
+
+  public String getMagnet(PirateBaySearchResult searchResult) {
+    return String.format("magnet:?xt=urn:btih:%s", searchResult.getInfoHash());
+  }
 }
