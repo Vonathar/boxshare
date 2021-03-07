@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({
-  "id",
   "name",
   "info_hash",
   "seeders",
@@ -17,8 +16,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   "status",
 })
 public class PirateBaySearchResult {
-  @JsonProperty("id")
-  private String id;
 
   @JsonProperty("name")
   private String name;
@@ -37,11 +34,6 @@ public class PirateBaySearchResult {
 
   @JsonProperty("status")
   private String status;
-
-  @JsonProperty("id")
-  public String getId() {
-    return id;
-  }
 
   @JsonProperty("name")
   public String getName() {
