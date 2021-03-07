@@ -24,7 +24,7 @@ public class PirateBaySearchResult {
   private String infoHash;
 
   @JsonProperty("seeders")
-  private String seeders;
+  private int seeders;
 
   @JsonProperty("size")
   private String size;
@@ -46,7 +46,7 @@ public class PirateBaySearchResult {
   }
 
   @JsonProperty("seeders")
-  public String getSeeders() {
+  public int getSeeders() {
     return seeders;
   }
 
