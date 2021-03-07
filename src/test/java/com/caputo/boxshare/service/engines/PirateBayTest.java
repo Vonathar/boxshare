@@ -1,7 +1,6 @@
 package com.caputo.boxshare.service.engines;
 
 import com.caputo.boxshare.entity.SearchResult;
-import com.caputo.boxshare.mock.PirateBayMockResults;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,7 +13,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 class PirateBayTest {
 
   @Autowired PirateBay pb;
-  @Autowired PirateBayMockResults mockResults;
 
   @Test
   void search_LegalQuery_ShouldReturnListOfSearchResults() {
