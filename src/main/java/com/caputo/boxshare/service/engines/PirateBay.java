@@ -41,16 +41,6 @@ public class PirateBay {
     } catch (Exception e) {
       System.out.printf("Failed to parse JSON for query: \"%s\". Error: %s", query, e);
     }
-    return searchResult;
-  }
-
-  /**
-   * Fetches the magnet link for a given search result.
-   *
-   * @param searchResult the search result from which the magnet link is built.
-   * @return the magnet link of the search result.
-   */
-  public String getMagnet(PirateBaySearchResult searchResult) {
-    return String.format("magnet:?xt=urn:btih:%s", searchResult.getInfoHash());
+    return searchResults;
   }
 }

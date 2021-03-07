@@ -23,11 +23,4 @@ class PirateBayTest {
     List<PirateBaySearchResult> searchResults = pb.search("test");
     assertThat(searchResults).isNotNull();
   }
-
-  @Test
-  void getMagnet_LegalSearchResult_ShouldReturnMagnetUrl() throws IOException {
-    String expected = "magnet:?xt=urn:btih:8B6833C3A0980B048F2AA94F12E5CFD7970D5288";
-    String actual = pb.getMagnet(mockSearchResults.getFirst());
-    assertEquals(expected, actual);
-  }
 }
