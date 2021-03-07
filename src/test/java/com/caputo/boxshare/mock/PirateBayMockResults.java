@@ -21,8 +21,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * as these are going to change nearly constantly.
  */
 @Service
-public class MockSearchResults {
-  @Value("classpath:mock-search-results/test.json")
+public class PirateBayMockResults {
+  @Value("classpath:tpb-mock-search-results/test.json")
   Resource resourceFile;
 
   public List<PirateBaySearchResult> getAll() throws IOException {
