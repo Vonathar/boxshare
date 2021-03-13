@@ -7,6 +7,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ public class LeetX {
 
   private final SearchResultBuilder srBuilder;
   private final String BASE_URL = "https://1337x.torrentbay.to";
+  Logger logger = LoggerFactory.getLogger(LeetX.class);
 
   @Value("${search.smart.minSeeders}")
   private int SMART_SEARCH_MIN_SEEDS;
@@ -38,6 +41,7 @@ public class LeetX {
    * @return the deserialised search results.
    */
   public List<SearchResult> search(String query, SearchMethod method) {
+    logger.info("Searching for \"{}\" on 1337X..", query);
     Document searchPage = getSearchPage(query);
     String ROWS_SELECTOR = ".table-list tbody tr";
     Elements tableRows = searchPage.select(ROWS_SELECTOR);
@@ -51,12 +55,13 @@ public class LeetX {
    * @return the HTML document of the search page.
    */
   private Document getSearchPage(String query) {
+    logger.info("Getting HTML of search results..");
     Document searchPageHtml = null;
     try {
       String searchPageUrl = BASE_URL + "/srch?search=" + query;
       searchPageHtml = Jsoup.connect(searchPageUrl).get();
     } catch (Exception e) {
-      System.out.printf("Failed to get search page for query: \"%s\". Error: %s", query, e);
+      logger.error("Failed to get search page for query: \"{}\". Error: {}", query, e);
     }
     return searchPageHtml;
   }
@@ -69,6 +74,7 @@ public class LeetX {
    * @return the populated SearchResult objects.
    */
   private List<SearchResult> parseTable(Elements rows, SearchMethod method) {
+    logger.info("Parsing HTML table with \"{}\" method..", method);
     List<SearchResult> results = new ArrayList<>();
     switch (method) {
       case QUICK:
@@ -87,6 +93,7 @@ public class LeetX {
           }
         }
     }
+    logger.info("Successfully found {} search results.", results.size());
     return results;
   }
 
@@ -97,6 +104,7 @@ public class LeetX {
    * @return the populated SearchResult object.
    */
   private SearchResult parseRow(Element row) {
+    logger.info("Parsing HTML row..");
     String NAME_SELECTOR = ".coll-1";
     String SEEDERS_SELECTOR = ".coll-2";
     String SIZE_SELECTOR = ".coll-4";
@@ -114,7 +122,7 @@ public class LeetX {
           .setUser(row.select(USER_SELECTOR).text())
           .setInfoHash(infoHash);
     } catch (IOException e) {
-      System.out.printf("Failed to parse HTML row: \"%s\". Error: %s", row, e);
+      logger.error("Failed to parse HTML row: \"{}\". Error: {}", row, e);
     }
     return srBuilder.build();
   }

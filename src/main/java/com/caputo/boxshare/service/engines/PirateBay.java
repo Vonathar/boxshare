@@ -9,6 +9,8 @@ import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.javanet.NetHttpTransport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,8 +18,8 @@ import java.util.List;
 
 @Service
 public class PirateBay {
-
   final SearchResultBuilder srBuilder;
+  Logger logger = LoggerFactory.getLogger(PirateBay.class);
 
   public PirateBay(SearchResultBuilder srBuilder) {
     this.srBuilder = srBuilder;
@@ -30,6 +32,7 @@ public class PirateBay {
    * @return the deserialised search results.
    */
   public List<SearchResult> search(String query) {
+    logger.info("Searching for \"{}\" on TPB..", query);
     String URL = "https://pirateproxy.ltda/newapi/q.php?q=" + query;
     String json = null;
     try {
@@ -37,7 +40,7 @@ public class PirateBay {
       HttpRequest request = requestFactory.buildGetRequest(new GenericUrl(URL));
       json = request.execute().parseAsString();
     } catch (Exception e) {
-      System.out.printf("Failed to query TBP for: \"%s\". Error: %s", query, e);
+      logger.error("Failed to query TBP for: \"{}\". Error: {}", query, e);
     }
     List<SearchResult> results = new ArrayList<>();
     try {
@@ -57,8 +60,9 @@ public class PirateBay {
                       .setSize(pbResult.getSize())
                       .build()));
     } catch (Exception e) {
-      System.out.printf("Failed to parse JSON for query: \"%s\". Error: %s", query, e);
+      logger.error("Failed to parse JSON for query: \"{}\". Error: {}", query, e);
     }
+    logger.info("Successfully found {} search results.", results.size());
     return results;
   }
 }
