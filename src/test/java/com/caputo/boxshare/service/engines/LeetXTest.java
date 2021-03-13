@@ -37,12 +37,12 @@ class LeetXTest {
 
   @Test
   public void search_QuickSearch_ShouldReturnListWithSingleSearchResult() {
-    assertThat(quickResults.size()).isEqualTo(1);
+    assertThat(quickResults).hasSize(1);
   }
 
   @Test
   public void search_SmartSearch_ShouldNotReturnMoreResultsThanMaxAllowed() {
-    assertThat(smartResults.size()).isLessThanOrEqualTo(SMART_SEARCH_MAX_RESULTS);
+    assertThat(smartResults).hasSizeLessThan(SMART_SEARCH_MAX_RESULTS);
   }
 
   @Test
