@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class LeetX {
+public class LeetX implements SearchEngine {
 
   private final SearchResultBuilder srBuilder;
   private final String BASE_URL = "https://1337x.torrentbay.to";

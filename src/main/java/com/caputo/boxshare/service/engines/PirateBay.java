@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PirateBay {
+public class PirateBay implements SearchEngine {
   final SearchResultBuilder srBuilder;
   Logger logger = LoggerFactory.getLogger(PirateBay.class);
 
@@ -31,7 +31,7 @@ public class PirateBay {
    * @param query the term to search on TPB.
    * @return the deserialised search results.
    */
-  public List<SearchResult> search(String query) {
+  public List<SearchResult> search(String query, SearchMethod method) {
     logger.info("Searching for \"{}\" on TPB..", query);
     String URL = "https://pirateproxy.ltda/newapi/q.php?q=" + query;
     String json = null;

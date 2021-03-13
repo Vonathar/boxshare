@@ -1,6 +1,7 @@
 package com.caputo.boxshare.service.engines;
 
 import com.caputo.boxshare.entity.SearchResult;
+import com.caputo.boxshare.enumerable.SearchMethod;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +17,7 @@ class PirateBayTest {
 
   @Test
   void search_LegalQuery_ShouldReturnListOfSearchResults() {
-    List<SearchResult> searchResults = pb.search("test");
+    List<SearchResult> searchResults = pb.search("test", SearchMethod.COMPLETE);
     assertThat(searchResults).isNotNull();
   }
 }
