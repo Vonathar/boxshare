@@ -5,11 +5,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SearchResultBuilder {
+
   private String name;
   private String infoHash;
   private int seeders;
   private String size;
   private String user;
+  private String origin;
 
   public SearchResultBuilder setName(String name) {
     this.name = name;
@@ -36,7 +38,12 @@ public class SearchResultBuilder {
     return this;
   }
 
+  public SearchResultBuilder setOrigin(String origin) {
+    this.origin = origin;
+    return this;
+  }
+
   public SearchResult build() {
-    return new SearchResult(name, infoHash, seeders, size, user);
+    return new SearchResult(name, infoHash, seeders, size, user, origin);
   }
 }

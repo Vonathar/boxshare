@@ -6,13 +6,16 @@ public class SearchResult {
   private final int seeders;
   private final String size;
   private final String user;
+  private final String origin;
 
-  public SearchResult(String name, String infoHash, int seeders, String size, String user) {
+  public SearchResult(
+      String name, String infoHash, int seeders, String size, String user, String origin) {
     this.name = name;
     this.infoHash = infoHash;
     this.seeders = seeders;
     this.size = size;
     this.user = user;
+    this.origin = origin;
   }
 
   public String getName() {
@@ -33,5 +36,9 @@ public class SearchResult {
 
   public String getUser() {
     return user;
+  }
+
+  public String getOrigin() {
+    return origin;
   }
 }

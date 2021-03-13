@@ -3,6 +3,7 @@ package com.caputo.boxshare.service.engines;
 import com.caputo.boxshare.builder.SearchResultBuilder;
 import com.caputo.boxshare.entity.PirateBaySearchResult;
 import com.caputo.boxshare.entity.SearchResult;
+import com.caputo.boxshare.enumerable.SearchMethod;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.http.GenericUrl;
@@ -58,6 +59,7 @@ public class PirateBay implements SearchEngine {
                       .setInfoHash(pbResult.getInfoHash())
                       .setUser(pbResult.getUsername())
                       .setSize(pbResult.getSize())
+                      .setOrigin(this.getClass().getSimpleName())
                       .build()));
     } catch (Exception e) {
       logger.error("Failed to parse JSON for query: \"{}\". Error: {}", query, e);

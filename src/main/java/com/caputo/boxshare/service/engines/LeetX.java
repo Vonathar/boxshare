@@ -120,7 +120,8 @@ public class LeetX implements SearchEngine {
           .setSeeders(Integer.parseInt(row.select(SEEDERS_SELECTOR).text()))
           .setSize(row.select(SIZE_SELECTOR).text())
           .setUser(row.select(USER_SELECTOR).text())
-          .setInfoHash(infoHash);
+          .setInfoHash(infoHash)
+          .setOrigin(this.getClass().getSimpleName());
     } catch (IOException e) {
       logger.error("Failed to parse HTML row: \"{}\". Error: {}", row, e);
     }
