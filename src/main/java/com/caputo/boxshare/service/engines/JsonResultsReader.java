@@ -80,12 +80,6 @@ public abstract class JsonResultsReader implements SearchEngine {
    * @return the parsed result.
    */
   protected SearchResult parseResult(JsonSearchResult sr) {
-    logger.info(
-        "Successfully parsed: {} - {}. Seeders: {} Size: {}",
-        sr.getInfoHash(),
-        sr.getName(),
-        sr.getSeeders(),
-        sr.getSize());
     return srBuilder
         .setName(sr.getName())
         .setSeeders(sr.getSeeders())

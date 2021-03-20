@@ -124,13 +124,6 @@ public class CorsaroNero implements SearchEngine {
         .setInfoHash(row.select(HASH_SELECTOR).attr("value"))
         .setOrigin(this.getClass().getSimpleName());
     // TODO: Parse all available pages.
-    SearchResult sr = srBuilder.build();
-    logger.info(
-        "Successfully parsed: {} - {}. Seeders: {} Size: {}",
-        sr.getInfoHash(),
-        sr.getName(),
-        sr.getSeeders(),
-        sr.getSize());
-    return sr;
+    return srBuilder.build();
   }
 }

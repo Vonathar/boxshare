@@ -125,13 +125,6 @@ public class LeetX implements SearchEngine {
     } catch (IOException e) {
       logger.error("Failed to parse HTML row: \"{}\". Error: {}", row, e);
     }
-    SearchResult sr = srBuilder.build();
-    logger.info(
-        "Successfully parsed: {} - {}. Seeders: {} Size: {}",
-        sr.getInfoHash(),
-        sr.getName(),
-        sr.getSeeders(),
-        sr.getSize());
-    return sr;
+    return srBuilder.build();
   }
 }

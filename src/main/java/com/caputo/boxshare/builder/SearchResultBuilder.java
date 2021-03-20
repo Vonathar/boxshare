@@ -1,6 +1,8 @@
 package com.caputo.boxshare.builder;
 
 import com.caputo.boxshare.entity.SearchResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -38,6 +40,9 @@ public class SearchResultBuilder {
   }
 
   public SearchResult build() {
-    return new SearchResult(name, infoHash, seeders, size, user, origin);
+    Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
+    logger.info(
+        "Successfully created: {} - {}. Seeders: {} Size: {}", infoHash, name, seeders, size);
+    return new SearchResult(name, infoHash, seeders, size, origin);
   }
 }
