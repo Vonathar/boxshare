@@ -20,7 +20,7 @@ import java.io.*;
 @RestController
 public class ApkController {
 
-  @Value("${boxshare.apk.version}")
+  @Value("${boxshare.client.version}")
   String APK_VERSION;
 
   Logger logger = LoggerFactory.getLogger(ApkController.class);

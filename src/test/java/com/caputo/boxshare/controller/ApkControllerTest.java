@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 class ApkControllerTest {
-  @Value("${boxshare.apk.version}")
+  @Value("${boxshare.client.version}")
   String APK_VERSION;
 
   @Autowired private MockMvc mockMvc;
