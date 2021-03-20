@@ -10,7 +10,6 @@ public class SearchResultBuilder {
   private String infoHash;
   private int seeders;
   private String size;
-  private String user;
   private String origin;
 
   public SearchResultBuilder setName(String name) {
@@ -30,11 +29,6 @@ public class SearchResultBuilder {
 
   public SearchResultBuilder setSize(String size) {
     this.size = size;
-    return this;
-  }
-
-  public SearchResultBuilder setUser(String user) {
-    this.user = user;
     return this;
   }
 
