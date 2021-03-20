@@ -2,6 +2,8 @@ package com.caputo.boxshare.service.engines;
 
 import com.caputo.boxshare.entity.SearchResult;
 import com.caputo.boxshare.enumerable.SearchMethod;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -11,6 +13,7 @@ import java.util.List;
  * parsed as an object of type SearchResult in order to be processed later on.
  */
 public interface SearchEngine {
+  Logger logger = LoggerFactory.getLogger(Runnable.class.getSimpleName());
 
   /**
    * Queries the search engine and fetches the deserialised search results.
