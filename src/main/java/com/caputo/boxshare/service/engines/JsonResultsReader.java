@@ -43,8 +43,6 @@ public abstract class JsonResultsReader implements SearchEngine {
    * @param method the searching method to apply while parsing the search results.
    * @return the deserialised search results.
    */
-  public abstract List<SearchResult> search(String query, SearchMethod method);
-
   protected <T> List<SearchResult> getResults(
       String query, String url, SearchMethod method, TypeReference<T> typeRef) {
     this.query = query;
