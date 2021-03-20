@@ -3,6 +3,7 @@ package com.caputo.boxshare.service;
 import com.caputo.boxshare.builder.ResultListBuilder;
 import com.caputo.boxshare.entity.ResultList;
 import com.caputo.boxshare.enumerable.SearchMethod;
+import com.caputo.boxshare.service.engines.CorsaroNero;
 import com.caputo.boxshare.service.engines.LeetX;
 import com.caputo.boxshare.service.engines.PirateBay;
 import com.caputo.boxshare.service.engines.SearchEngine;
@@ -20,11 +21,14 @@ public class TorrentSearcher {
   final ResultListBuilder resultListBuilder;
   final PirateBay pb;
   final LeetX leetX;
+  final CorsaroNero cn;
 
-  public TorrentSearcher(ResultListBuilder resultListBuilder, PirateBay pb, LeetX leetX) {
+  public TorrentSearcher(
+      ResultListBuilder resultListBuilder, PirateBay pb, LeetX leetX, CorsaroNero cn) {
     this.resultListBuilder = resultListBuilder;
     this.pb = pb;
     this.leetX = leetX;
+    this.cn = cn;
   }
 
   /**
@@ -35,7 +39,7 @@ public class TorrentSearcher {
    * @return the list of deserialised search results.
    */
   public ResultList get(String query, SearchMethod method) {
-    List<SearchEngine> engines = Arrays.asList(pb, leetX);
+    List<SearchEngine> engines = Arrays.asList(pb, leetX, cn);
     for (SearchEngine engine : engines) {
       resultListBuilder.add(engine.search(query, method));
     }
