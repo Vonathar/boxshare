@@ -22,7 +22,7 @@ class TorrentSearcherTest {
   void get_LegalQuery_ShouldReturnAggregatedSearchResultsFromAllEngines() {
     List<String> expectedEngines = directoryReader.getEngines();
     List<String> actualEngines = new ArrayList<>();
-    ResultList results = searcher.get("sample test", SearchMethod.QUICK);
+    ResultList results = searcher.get("1080p", SearchMethod.QUICK);
     results
         .getAll()
         .forEach(
