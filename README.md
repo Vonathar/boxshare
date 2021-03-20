@@ -4,8 +4,8 @@ Boxshare is an open source torrent streamer for local networks.
 
 ## Piracy notice
 
-I do not condone piracy in any way, and I am not responsible for anything that happens as a result of piracy arising
-from the use of this software.
+This project is for educational purposes only. I do not condone piracy in any way, and I am not responsible for anything
+that happens as a result of piracy arising from the use of this software.
 
 You must own the copyright or have explicit permission from the owner of the copyright for any content you view using
 Boxshare.
