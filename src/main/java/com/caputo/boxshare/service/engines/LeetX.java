@@ -41,7 +41,7 @@ public class LeetX implements SearchEngine {
    * @return the deserialised search results.
    */
   public List<SearchResult> search(String query, SearchMethod method) {
-    logger.info("Searching for \"{}\" on 1337X..", query);
+    logger.info("Searching for \"{}\" on 1337X ({})..", query, method);
     Document searchPage = getSearchPage(query);
     String ROWS_SELECTOR = ".table-list tbody tr";
     Elements tableRows = searchPage.select(ROWS_SELECTOR);
@@ -55,7 +55,7 @@ public class LeetX implements SearchEngine {
    * @return the HTML document of the search page.
    */
   private Document getSearchPage(String query) {
-    logger.info("Getting HTML of search results..");
+    logger.info("Getting search results..");
     Document searchPageHtml = null;
     try {
       String searchPageUrl = BASE_URL + "/srch?search=" + query;
@@ -74,7 +74,7 @@ public class LeetX implements SearchEngine {
    * @return the populated SearchResult objects.
    */
   private List<SearchResult> parseTable(Elements rows, SearchMethod method) {
-    logger.info("Parsing HTML table with \"{}\" method..", method);
+    logger.info("Parsing table..");
     List<SearchResult> results = new ArrayList<>();
     switch (method) {
       case QUICK:
@@ -104,7 +104,7 @@ public class LeetX implements SearchEngine {
    * @return the populated SearchResult object.
    */
   private SearchResult parseRow(Element row) {
-    logger.info("Parsing HTML row..");
+    logger.info("Parsing row..");
     String NAME_SELECTOR = ".coll-1";
     String SEEDERS_SELECTOR = ".coll-2";
     String SIZE_SELECTOR = ".coll-4";
@@ -125,6 +125,13 @@ public class LeetX implements SearchEngine {
     } catch (IOException e) {
       logger.error("Failed to parse HTML row: \"{}\". Error: {}", row, e);
     }
-    return srBuilder.build();
+    SearchResult sr = srBuilder.build();
+    logger.info(
+        "Successfully parsed: {} - {}. Seeders: {} Size: {}",
+        sr.getInfoHash(),
+        sr.getName(),
+        sr.getSeeders(),
+        sr.getSize());
+    return sr;
   }
 }
