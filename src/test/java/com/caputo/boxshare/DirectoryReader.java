@@ -21,7 +21,11 @@ public class DirectoryReader {
 
   public List<String> getEngines() {
     return getClassNames("src/main/java/com/caputo/boxshare/service/engines").stream()
-        .filter(name -> !name.equals("SearchEngine"))
+        .filter(
+            name ->
+                !name.equals("SearchEngine")
+                    && !name.equals("HtmlResultsReader")
+                    && !name.equals("JsonResultsReader"))
         .collect(Collectors.toList());
   }
 }
