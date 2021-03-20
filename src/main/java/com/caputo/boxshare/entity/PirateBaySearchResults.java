@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   "username",
   "status",
 })
-public class PirateBaySearchResult {
+public class PirateBaySearchResults implements JsonSearchResult {
 
   @JsonProperty("name")
   private String name;
@@ -28,12 +28,6 @@ public class PirateBaySearchResult {
 
   @JsonProperty("size")
   private String size;
-
-  @JsonProperty("username")
-  private String username;
-
-  @JsonProperty("status")
-  private String status;
 
   @JsonProperty("name")
   public String getName() {
@@ -53,15 +47,5 @@ public class PirateBaySearchResult {
   @JsonProperty("size")
   public String getSize() {
     return size;
-  }
-
-  @JsonProperty("username")
-  public String getUsername() {
-    return username;
-  }
-
-  @JsonProperty("status")
-  public String getStatus() {
-    return status;
   }
 }
