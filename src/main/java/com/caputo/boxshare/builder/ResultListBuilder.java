@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 public class ResultListBuilder {
-  private final List<SearchResult> results = new ArrayList<>();
+  private List<SearchResult> results = new ArrayList<>();
 
   public ResultListBuilder add(List<SearchResult> sr) {
     results.addAll(sr);
@@ -24,6 +24,7 @@ public class ResultListBuilder {
    */
   public ResultList build() {
     ResultList list = new ResultList(results);
+    results = new ArrayList<>();
     return sortBySeeders(list);
   }
 
