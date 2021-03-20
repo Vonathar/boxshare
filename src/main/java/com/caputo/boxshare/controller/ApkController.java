@@ -32,6 +32,7 @@ public class ApkController {
    */
   @GetMapping("version")
   public String getVersion() {
+    logger.info("Incoming request for APK version.");
     return APK_VERSION;
   }
 
@@ -42,7 +43,7 @@ public class ApkController {
    */
   @GetMapping(value = "download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
   public @ResponseBody byte[] getApk() {
-    logger.info("Incoming request for APK.");
+    logger.info("Incoming request for APK download.");
     File apk = null;
     String fileName = "boxshare_" + APK_VERSION.replaceAll("\\.", "_") + ".apk";
     System.out.println(fileName);
