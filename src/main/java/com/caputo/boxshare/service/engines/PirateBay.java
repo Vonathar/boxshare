@@ -91,6 +91,12 @@ public class PirateBay implements SearchEngine {
    * @return the object parsed from PirateBaySearchResult.
    */
   private SearchResult parseResult(PirateBaySearchResult sr) {
+    logger.info(
+        "Successfully parsed: {} - {}. Seeders: {} Size: {}",
+        sr.getInfoHash(),
+        sr.getName(),
+        sr.getSeeders(),
+        sr.getSize());
     return srBuilder
         .setName(sr.getName())
         .setSeeders(sr.getSeeders())
