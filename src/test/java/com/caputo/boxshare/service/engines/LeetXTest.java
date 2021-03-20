@@ -42,7 +42,7 @@ class LeetXTest {
 
   @Test
   public void search_SmartSearch_ShouldNotReturnMoreResultsThanMaxAllowed() {
-    assertThat(smartResults).hasSizeLessThan(SMART_SEARCH_MAX_RESULTS);
+    assertThat(smartResults).hasSizeLessThanOrEqualTo(SMART_SEARCH_MAX_RESULTS);
   }
 
   @Test

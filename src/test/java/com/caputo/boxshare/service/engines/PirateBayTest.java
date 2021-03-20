@@ -31,9 +31,9 @@ class PirateBayTest {
 
   @BeforeAll
   public void getResults() {
-    quickResults = pb.search("sample test", SearchMethod.QUICK);
-    smartResults = pb.search("sample test", SearchMethod.SMART);
-    completeResults = pb.search("sample test", SearchMethod.COMPLETE);
+    quickResults = pb.search("linux", SearchMethod.QUICK);
+    smartResults = pb.search("linux", SearchMethod.SMART);
+    completeResults = pb.search("linux", SearchMethod.COMPLETE);
   }
 
   @Test
@@ -43,7 +43,7 @@ class PirateBayTest {
 
   @Test
   public void search_SmartSearch_ShouldNotReturnMoreResultsThanMaxAllowed() {
-    assertThat(smartResults).hasSizeLessThan(SMART_SEARCH_MAX_RESULTS);
+    assertThat(smartResults).hasSizeLessThanOrEqualTo(SMART_SEARCH_MAX_RESULTS);
   }
 
   @Test
