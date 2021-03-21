@@ -4,8 +4,6 @@ import com.caputo.boxshare.builder.SearchResultBuilder;
 import com.caputo.boxshare.entity.SearchResult;
 import com.caputo.boxshare.enumerable.SearchMethod;
 import org.jsoup.nodes.Element;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +13,6 @@ import java.util.List;
 public class CorsaroNero extends HtmlResultsReader implements SearchEngine {
 
   private final SearchResultBuilder srBuilder;
-  Logger logger = LoggerFactory.getLogger(CorsaroNero.class);
 
   @Value("${search.engine.corsaroNero.baseUrl}")
   private String BASE_URL;
