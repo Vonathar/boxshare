@@ -1,5 +1,8 @@
 # Boxshare
 
+[![Build Status](https://travis-ci.com/Vonathar/boxshare.svg?token=fUKSDpqhxEVNtDPifgjH&branch=master)](https://travis-ci.com/Vonathar/boxshare)
+[![codecov](https://codecov.io/gh/Vonathar/boxshare/branch/master/graph/badge.svg?token=5I037Q3NOJ)](https://codecov.io/gh/Vonathar/boxshare)
+
 Boxshare is an open source torrent streamer for local networks.
 
 ## Piracy notice
