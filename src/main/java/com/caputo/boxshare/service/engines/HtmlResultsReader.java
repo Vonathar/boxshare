@@ -50,7 +50,7 @@ public abstract class HtmlResultsReader implements SearchEngine {
     logger.info("Getting results page: {}", url);
     Document searchPageHtml = null;
     try {
-      searchPageHtml = Jsoup.connect(url).get();
+      searchPageHtml = Jsoup.connect(url).userAgent("Mozilla").get();
     } catch (Exception e) {
       logger.error("Failed to get search page: \"{}\". Error: {}", url, e);
     }
