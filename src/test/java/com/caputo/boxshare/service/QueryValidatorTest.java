@@ -19,14 +19,12 @@ class QueryValidatorTest {
   }
 
   @Test
-  void validate_IllegalQuery_ShouldThrow400BadRequestException() {
-    assertThrows(
-        ResponseStatusException.class,
-        () -> {
-          // Query smaller than 2 chars.
-          validator.validate("");
-          // Only non-word characters.
-          validator.validate("?!.");
-        });
+  void validate_QueryTooShort_ShouldThrow400BadRequestException() {
+    assertThrows(ResponseStatusException.class, () -> validator.validate(""));
+  }
+
+  @Test
+  void validate_QueryWithoutWordChars_ShouldThrow400BadRequestException() {
+    assertThrows(ResponseStatusException.class, () -> validator.validate("?!."));
   }
 }
