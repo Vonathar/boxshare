@@ -35,7 +35,7 @@ public class SearchController {
    */
   @GetMapping("search/{query}")
   public ResultList search(
-      @PathVariable String query, @RequestParam(defaultValue = "smart") String method) {
+      @PathVariable String query, @RequestParam(defaultValue = "quick") String method) {
     logger.info("Incoming request: \"{}\" ({}).", query, method);
     queryValidator.validate(query);
     return torrentSearcher.get(query, SearchMethod.valueOf(method.toUpperCase()));
