@@ -33,7 +33,7 @@ public class LeetX extends HtmlResultsReader implements SearchEngine {
    */
   public List<SearchResult> search(String query, SearchMethod method) {
     String rowSelector = ".table-list tbody tr";
-    String url = BASE_URL + query;
+    String url = BASE_URL + "/srch?search=" + query;
     return getResults(query, url, rowSelector, method);
   }
 
@@ -41,7 +41,7 @@ public class LeetX extends HtmlResultsReader implements SearchEngine {
    * Parses a SearchResult object from an HTML table row.
    *
    * @param row an HTML row of the search page.
-   * @return the populated SearchResult object.
+   * @return the populated SearchResult object, or null for non-parsable inputs.
    */
   protected SearchResult parseRow(Element row) {
     logger.info("Parsing row..");
@@ -49,19 +49,33 @@ public class LeetX extends HtmlResultsReader implements SearchEngine {
     String SEEDERS_SELECTOR = ".coll-2";
     String SIZE_SELECTOR = ".coll-4";
     String ANCHOR_SELECTOR = ".coll-1 a:nth-child(2)";
-    String HASH_SELECTOR = ".infohash-box span";
-    try {
-      String resultPageUrl = BASE_URL + row.select(ANCHOR_SELECTOR).attr("href");
-      Document resultPageHtml = Jsoup.connect(resultPageUrl).get();
-      String infoHash = resultPageHtml.select(HASH_SELECTOR).text();
+    String name = row.select(NAME_SELECTOR).text();
+    String seeders = row.select(SEEDERS_SELECTOR).text();
+    String size = row.select(SIZE_SELECTOR).text();
+    String resultPageUrl = BASE_URL + row.select(ANCHOR_SELECTOR).attr("href");
+    if (name.isEmpty() | seeders.isEmpty() | resultPageUrl.isEmpty()) {
+      logger.error("Failed to parse required information from row: {}", row);
+      return null;
+    } else {
       srBuilder
-          .setName(row.select(NAME_SELECTOR).text())
-          .setSeeders(Integer.parseInt(row.select(SEEDERS_SELECTOR).text()))
-          .setSize(row.select(SIZE_SELECTOR).text())
-          .setInfoHash(infoHash)
-          .setOrigin(this.getClass().getSimpleName());
+          .setOrigin(this.getClass().getSimpleName())
+          .setName(name)
+          .setSeeders(Integer.parseInt(seeders))
+          .setSize(size);
+    }
+    try {
+      Document resultPageHtml = Jsoup.connect(resultPageUrl).get();
+      String HASH_SELECTOR = ".infohash-box span";
+      String infoHash = resultPageHtml.select(HASH_SELECTOR).text();
+      if (infoHash.isEmpty()) {
+        logger.error("Failed to parse hash from URL: {}", resultPageUrl);
+        return null;
+      } else {
+        srBuilder.setInfoHash(infoHash);
+      }
     } catch (IOException e) {
-      logger.error("Failed to parse HTML row: \"{}\". Error: {}", row, e);
+      logger.error(
+          "Failed to load HTML of search result. URL: \"{}\". Error: {}", resultPageUrl, e);
     }
     return srBuilder.build();
   }
