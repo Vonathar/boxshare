@@ -48,19 +48,22 @@ public class CorsaroNero extends HtmlResultsReader implements SearchEngine {
     String SEEDERS_SELECTOR = "td:nth-child(6) > font";
     String SIZE_SELECTOR = "td:nth-child(3) > font";
     String HASH_SELECTOR = "td:nth-child(4) > form > input";
-    int seeders = 0;
-    try {
-      seeders = Integer.parseInt(row.select(SEEDERS_SELECTOR).text());
-    } catch (NumberFormatException e) {
-      logger.info("Failed to get number of seeders, defaulting to 0.");
+    String name = row.select(NAME_SELECTOR).text();
+    String hash = row.select(HASH_SELECTOR).attr("value");
+    String seeders = row.select(SEEDERS_SELECTOR).text();
+    String size = row.select(SIZE_SELECTOR).text();
+    if (name.isEmpty() | seeders.isEmpty() | hash.isEmpty()) {
+      logger.error("Failed to parse required information from row: {}", row);
+      return null;
+    } else {
+      return srBuilder
+          .setName(name)
+          .setSeeders(Integer.parseInt(seeders))
+          .setSize(size)
+          .setInfoHash(hash)
+          .setOrigin(this.getClass().getSimpleName())
+          .build();
     }
-    srBuilder
-        .setName(row.select(NAME_SELECTOR).text())
-        .setSeeders(seeders)
-        .setSize(row.select(SIZE_SELECTOR).text())
-        .setInfoHash(row.select(HASH_SELECTOR).attr("value"))
-        .setOrigin(this.getClass().getSimpleName());
     // TODO: Parse all available pages.
-    return srBuilder.build();
   }
 }
