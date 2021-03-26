@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This class is responsible for parsing and deserialising the HTML search results of any engine.
@@ -31,8 +32,7 @@ public abstract class HtmlResultsReader implements SearchEngine {
    * @return the deserialised search results.
    */
   protected List<SearchResult> getResults(String url, String rowSelector, SearchMethod method) {
-    Document searchPage = getSearchPage(url);
-    tableRows = searchPage.select(rowSelector);
+    getSearchPage(url).ifPresent(page -> tableRows = page.select(rowSelector));
     return parseTable(tableRows, method);
   }
 
@@ -42,15 +42,14 @@ public abstract class HtmlResultsReader implements SearchEngine {
    * @param url the URL of the search page.
    * @return the HTML document of the search page.
    */
-  protected Document getSearchPage(String url) {
+  protected Optional<Document> getSearchPage(String url) {
     logger.info("Getting results page: {}", url);
-    Document searchPageHtml = null;
     try {
-      searchPageHtml = Jsoup.connect(url).userAgent("Mozilla").get();
+      return Optional.of(Jsoup.connect(url).headers(headers).get());
     } catch (Exception e) {
       logger.error("Failed to get search page: \"{}\". Error: {}", url, e);
+      return Optional.empty();
     }
-    return searchPageHtml;
   }
 
   /**
