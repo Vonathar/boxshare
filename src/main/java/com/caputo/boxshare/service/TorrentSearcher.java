@@ -4,10 +4,7 @@ import com.caputo.boxshare.builder.ResultListBuilder;
 import com.caputo.boxshare.entity.ResultList;
 import com.caputo.boxshare.entity.SearchResult;
 import com.caputo.boxshare.enumerable.SearchMethod;
-import com.caputo.boxshare.service.engines.CorsaroNero;
-import com.caputo.boxshare.service.engines.LeetX;
-import com.caputo.boxshare.service.engines.PirateBay;
-import com.caputo.boxshare.service.engines.SearchEngine;
+import com.caputo.boxshare.service.engines.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
