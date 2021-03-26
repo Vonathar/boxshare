@@ -29,6 +29,40 @@ public class CorsaroBlu extends HtmlResultsReader implements SearchEngine {
    * @return the deserialised search results.
    */
   public List<SearchResult> search(String query, SearchMethod method) {
+    headers.put("authority", "ilcorsaroblu.org");
+    headers.put("pragma", "no-cache");
+    headers.put("cache-control", "no-cache");
+    headers.put("upgrade-insecure-requests", "1");
+    headers.put(
+        "accept",
+        "text/html,application/xhtml+xml,application/xml;q=0.9,"
+            + "image/avif,image/webp,image/apng,*/*;q=0.8,"
+            + "application/signed-exchange;v=b3;q=0.9");
+    headers.put("sec-fetch-site", "same-origin");
+    headers.put("sec-fetch-mode", "navigate");
+    headers.put("sec-fetch-user", "?1");
+    headers.put("sec-fetch-dest", "document");
+    headers.put(
+        "referer",
+        "https://ilcorsaroblu.org/index.php?page=torrents&search="
+            + query
+            + "&category=0&options=0&active=0");
+    headers.put("accept-language", "en-US,en;q=0.9");
+    headers.put(
+        "cookie",
+        "__cfduid=d59941bb03894f0f16af8fffe58bf30a61616703035; xbtitFM=adaf9d3056e74d572474a2a95e4221da; "
+            + "__utma=71060040.200814639.1616703038.1616703038.1616703038.1; __utmc=71060040; "
+            + "__utmz=71060040.1616703038.1.1.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); "
+            + "_ga=GA1.2.200814639.1616703038; _gid=GA1.2.1512835960.1616703039; "
+            + "fpestid=x8Fh2P4JvF0wSD4NmwKrtu-C2OJF0bNAmfvYIihIh6Ly9biVrwcbZf9MTff_r2dH7xaaww; "
+            + "uid=33737; pass=66c85d83fbf856698c299d3b5374cee4; "
+            + "a=wiHDmMrLbUIlue0558SeJI8HlSBGqUH7; _popfired_expires=Invalid%20Date; ajax_poller_1=1; "
+            + "_popfiredinpage_expires=Invalid%20Date; _popfiredinpage=4; lastOpenAt_inpage=1616704195183; "
+            + "_popfired=5; lastOpenAt_=1616704243991; __utmt=1; "
+            + "token_QpUJAAAAAAAAGu98Hdz1l_lcSZ2rY60Ajjk9U1c=BAYAYFzvfgFgXPR7gAGBAsAAINWwQhq10jrc3NpiDS4VMNuJChQ7"
+            + "-2Otc3-Fb7RpmvDWwQBGMEQCIBua-wRJ8gXH0hiIXvbY_TZjSg9YLHFiAH4JEpm87oXxAiBBKZOMYwTcIaSpCCYqb0oXaDGhFF"
+            + "PBIL5q9X6lI7jIDA; __utmb=71060040.38.10.1616703038");
+
     logger.info("Searching for \"{}\" on {} ({})..", query, className, method);
     String url = BASE_URL + query + "&&order=5&by=2";
     String rowSelector =
