@@ -52,8 +52,11 @@ public class CorsaroNero extends HtmlResultsReader implements SearchEngine {
     String name = row.select(NAME_SELECTOR).text();
     String hash = row.select(HASH_SELECTOR).attr("value");
     String seeders = row.select(SEEDERS_SELECTOR).text();
+    if (seeders.equals("n/a")) {
+      seeders = "-1";
+    }
     String size = row.select(SIZE_SELECTOR).text();
-    if (name.isEmpty() | seeders.isEmpty() | hash.isEmpty()) {
+    if (name.isEmpty() | hash.isEmpty()) {
       logger.error("Failed to parse required information from row: {}", row);
       return null;
     } else {
