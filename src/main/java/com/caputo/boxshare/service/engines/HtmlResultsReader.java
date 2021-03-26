@@ -25,16 +25,12 @@ public abstract class HtmlResultsReader implements SearchEngine {
   private int SMART_SEARCH_MAX_RESULTS;
 
   /**
-   * @param query the term to search.
    * @param url the URL of the search page.
    * @param rowSelector the CSS selector of the individual table rows that hold search results.
    * @param method the searching method to apply while parsing the search results.
    * @return the deserialised search results.
    */
-  protected List<SearchResult> getResults(
-      String query, String url, String rowSelector, SearchMethod method) {
-    String className = this.getClass().getSimpleName();
-    logger.info("Searching for \"{}\" on {} ({})..", query, className, method);
+  protected List<SearchResult> getResults(String url, String rowSelector, SearchMethod method) {
     Document searchPage = getSearchPage(url);
     tableRows = searchPage.select(rowSelector);
     return parseTable(tableRows, method);

@@ -32,9 +32,10 @@ public class LeetX extends HtmlResultsReader implements SearchEngine {
    * @return the deserialised search results.
    */
   public List<SearchResult> search(String query, SearchMethod method) {
+    logger.info("Searching for \"{}\" on {} ({})..", query, className, method);
     String rowSelector = ".table-list tbody tr";
     String url = BASE_URL + "/srch?search=" + query;
-    return getResults(query, url, rowSelector, method);
+    return getResults(url, rowSelector, method);
   }
 
   /**

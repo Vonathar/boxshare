@@ -14,6 +14,7 @@ import java.util.List;
  */
 public interface SearchEngine {
   Logger logger = LoggerFactory.getLogger(Runnable.class.getSimpleName());
+  String className = Runnable.class.getSimpleName();
 
   /**
    * Queries the search engine and fetches the deserialised search results.

@@ -29,11 +29,12 @@ public class CorsaroNero extends HtmlResultsReader implements SearchEngine {
    * @return the deserialised search results.
    */
   public List<SearchResult> search(String query, SearchMethod method) {
+    logger.info("Searching for \"{}\" on {} ({})..", query, className, method);
     String url = BASE_URL + query;
     String rowSelector =
         "#left > table > tbody > tr > td:nth-child(2) > table .odd, "
             + "#left > table > tbody > tr > td:nth-child(2) > table .odd2";
-    return getResults(query, url, rowSelector, method);
+    return getResults(url, rowSelector, method);
   }
 
   /**
