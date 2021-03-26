@@ -15,16 +15,16 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @SpringBootTest
 class CorsaroBluTest {
 
-  @Autowired CorsaroBlu corsaroNero;
+  @Autowired CorsaroBlu corsaroBlu;
 
   @Test
   public void search_ShouldSuccessfullyConnectAndReturnResults() {
-    List<SearchResult> results = corsaroNero.search("1080p", SearchMethod.QUICK);
+    List<SearchResult> results = corsaroBlu.search("1080p", SearchMethod.QUICK);
     assertFalse(results.isEmpty());
   }
 
   @Test
   public void parseRow_NonParsableRow_ShouldReturnNull() {
-    assertNull(corsaroNero.parseRow(new Element("tr")));
+    assertNull(corsaroBlu.parseRow(new Element("tr")));
   }
 }
