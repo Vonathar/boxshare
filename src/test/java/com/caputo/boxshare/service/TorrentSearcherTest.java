@@ -5,6 +5,7 @@ import com.caputo.boxshare.builder.ResultListBuilder;
 import com.caputo.boxshare.entity.ResultList;
 import com.caputo.boxshare.entity.SearchResult;
 import com.caputo.boxshare.enumerable.SearchMethod;
+import com.caputo.boxshare.service.engines.CorsaroBlu;
 import com.caputo.boxshare.service.engines.CorsaroNero;
 import com.caputo.boxshare.service.engines.LeetX;
 import com.caputo.boxshare.service.engines.PirateBay;
@@ -28,6 +29,7 @@ class TorrentSearcherTest {
   @Mock PirateBay pb;
   @Mock CorsaroNero cn;
   @Mock LeetX lx;
+  @Mock CorsaroBlu cb;
 
   @Test
   void get_LegalQuery_ShouldReturnAggregatedSearchResultsFromAllEngines() {
@@ -35,9 +37,11 @@ class TorrentSearcherTest {
         .thenReturn(Collections.singletonList(new SearchResult("n", "h", 0, "0", "PirateBay")));
     when(cn.search(any(), any()))
         .thenReturn(Collections.singletonList(new SearchResult("n", "h", 0, "0", "CorsaroNero")));
+    when(cb.search(any(), any()))
+        .thenReturn(Collections.singletonList(new SearchResult("n", "h", 0, "0", "CorsaroBlu")));
     when(lx.search(any(), any()))
         .thenReturn(Collections.singletonList(new SearchResult("n", "h", 0, "0", "LeetX")));
-    TorrentSearcher searcher = new TorrentSearcher(resultListBuilder, pb, lx, cn);
+    TorrentSearcher searcher = new TorrentSearcher(resultListBuilder, pb, lx, cn, cb);
     List<String> expectedEngines = directoryReader.getEngines();
     List<String> actualEngines = new ArrayList<>();
     ResultList results = searcher.get("1080p", SearchMethod.QUICK);

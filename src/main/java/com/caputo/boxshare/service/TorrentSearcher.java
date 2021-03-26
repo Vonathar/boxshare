@@ -20,9 +20,13 @@ public class TorrentSearcher {
   final List<SearchEngine> engines;
 
   public TorrentSearcher(
-      ResultListBuilder resultListBuilder, PirateBay pb, LeetX leetX, CorsaroNero cn) {
+      ResultListBuilder resultListBuilder,
+      PirateBay pb,
+      LeetX leetX,
+      CorsaroNero cn,
+      CorsaroBlu cb) {
     this.resultListBuilder = resultListBuilder;
-    this.engines = Arrays.asList(pb, leetX, cn);
+    this.engines = Arrays.asList(pb, leetX, cn, cb);
   }
 
   /**
