@@ -2,7 +2,7 @@ package com.caputo.boxshare.controller;
 
 import com.caputo.boxshare.entity.ResultList;
 import com.caputo.boxshare.entity.SearchResult;
-import com.caputo.boxshare.service.QueryValidator;
+import com.caputo.boxshare.service.RequestValidator;
 import com.caputo.boxshare.service.TorrentSearcher;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -22,16 +22,15 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 @AutoConfigureMockMvc
 class SearchControllerTest {
 
-  @Mock private QueryValidator queryValidator;
+  @Mock private RequestValidator requestValidator;
   @Mock private TorrentSearcher torrentSearcher;
 
   @Test
   public void search_LegalQuery_ShouldReturn200HttpResponse() throws Exception {
-    when(queryValidator.validate(any())).thenReturn(true);
     when(torrentSearcher.get(any(), any()))
         .thenReturn(
             new ResultList(Collections.singletonList(new SearchResult("n", "h", 0, "0", "o"))));
-    SearchController searchController = new SearchController(queryValidator, torrentSearcher);
+    SearchController searchController = new SearchController(requestValidator, torrentSearcher);
     MockMvc mockMvc = standaloneSetup(searchController).build();
     mockMvc.perform(get("/search/test")).andExpect(status().isOk());
   }
