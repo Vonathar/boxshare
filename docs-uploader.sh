@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$TRAVIS_REPO_SLUG" == "Vonathar/Boxshare" ] && [ "$TRAVIS_JDK_VERSION" == "openjdk11" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "gh-pages" ]; then
+if [ "$TRAVIS_REPO_SLUG" == "Vonathar/Boxshare" ] && [ "$TRAVIS_JDK_VERSION" == "openjdk11" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
 
   echo -e "Publishing javadoc...\n"
 
@@ -9,14 +9,14 @@ if [ "$TRAVIS_REPO_SLUG" == "Vonathar/Boxshare" ] && [ "$TRAVIS_JDK_VERSION" == 
   cd $HOME
   git config --global user.email "travis@travis-ci.org"
   git config --global user.name "travis-ci"
-  git clone https://${GH_TOKEN}@github.com/Vonathar/Boxshare.github.io
+  git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/Vonathar/Boxshare gh-pages >/dev/null
 
-  cd Boxshare.github.io
-  git rm -rf ./javadoc/latest
-  cp -Rf $HOME/javadoc-latest ./javadoc/latest
+  cd gh-pages
+  git rm -rf ./javadoc
+  cp -Rf $HOME/javadoc-latest ./javadoc
   git add -f .
   git commit -m "Auto-push latest documentation: $TRAVIS_BUILD_NUMBER"
-  git push origin gh-pages
+  git push -fq origin gh-pages >/dev/null
 
   echo -e "Published Javadoc to gh-pages.\n"
 
