@@ -1,6 +1,8 @@
 language: java
 jdk:
   - openjdk11
+before_install:
+  - chmod +x deploy-docs.sh
 after_success:
   - bash <(curl -s https://codecov.io/bash)
   - ./deploy-docs.sh
