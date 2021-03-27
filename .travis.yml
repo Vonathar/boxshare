@@ -7,6 +7,8 @@ branches:
     - gh-pages
 before_install:
   - chmod +x deploy-docs.sh
+install:
+  - mvn install -DskipTests=false -Dmaven.javadoc.skip=false -B -V
 after_success:
   - bash <(curl -s https://codecov.io/bash)
   - ./deploy-docs.sh
