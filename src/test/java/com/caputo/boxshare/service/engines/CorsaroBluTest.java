@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -19,7 +20,7 @@ class CorsaroBluTest {
 
   @Test
   public void search_ShouldSuccessfullyConnectAndReturnResults() {
-    List<SearchResult> results = corsaroBlu.search("1080p", SearchMethod.QUICK);
+    Optional<List<SearchResult>> results = corsaroBlu.search("1080p", SearchMethod.QUICK);
     assertFalse(results.isEmpty());
   }
 

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * This interface represents a generic search engine, responsible for fetching torrent results from
@@ -31,5 +32,5 @@ public interface SearchEngine {
    * @param method the searching method to apply while parsing the search results.
    * @return the deserialised search results.
    */
-  List<SearchResult> search(String query, SearchMethod method);
+  Optional<List<SearchResult>> search(String query, SearchMethod method);
 }

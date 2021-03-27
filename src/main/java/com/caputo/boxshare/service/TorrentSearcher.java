@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This class is responsible for querying all available search engines. The result of searches are
@@ -38,10 +39,8 @@ public class TorrentSearcher {
    */
   public ResultList get(String query, SearchMethod method) {
     for (SearchEngine engine : engines) {
-      List<SearchResult> results = engine.search(query, method);
-      if (results != null) {
-        resultListBuilder.add(results);
-      }
+      Optional<List<SearchResult>> results = engine.search(query, method);
+      results.ifPresent(resultListBuilder::add);
     }
     return resultListBuilder.build();
   }

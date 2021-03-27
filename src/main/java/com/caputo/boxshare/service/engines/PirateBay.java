@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PirateBay extends JsonResultsReader implements SearchEngine {
@@ -22,7 +23,7 @@ public class PirateBay extends JsonResultsReader implements SearchEngine {
    * @param method the searching method to apply while parsing the search results.
    * @return the deserialised search results.
    */
-  public List<SearchResult> search(String query, SearchMethod method) {
+  public Optional<List<SearchResult>> search(String query, SearchMethod method) {
     String url = BASE_URL + query;
     TypeReference<List<PirateBaySearchResults>> typeRef = new TypeReference<>() {};
     return getResults(query, url, method, typeRef);

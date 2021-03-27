@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -43,7 +44,7 @@ public abstract class JsonResultsReader implements SearchEngine {
    * @param method the searching method to apply while parsing the search results.
    * @return the deserialised search results.
    */
-  protected <T> List<SearchResult> getResults(
+  protected <T> Optional<List<SearchResult>> getResults(
       String query, String url, SearchMethod method, TypeReference<T> typeRef) {
     this.query = query;
     this.method = method;
@@ -95,14 +96,15 @@ public abstract class JsonResultsReader implements SearchEngine {
    * @param <T> the entity to use for deserialisation.
    * @return a list of populated SearchResult instances.
    */
-  protected <T> List<SearchResult> deserialiseJson(String json, TypeReference<T> typeRef) {
+  protected <T> Optional<List<SearchResult>> deserialiseJson(
+      String json, TypeReference<T> typeRef) {
     List<SearchResult> results = new ArrayList<>();
     List<PirateBaySearchResults> jsonResults = null;
     try {
       jsonResults = new ObjectMapper().reader().forType(typeRef).readValue(json);
     } catch (JsonProcessingException e) {
-      logger.error(
-          "Failed to deserialise JSON. query=\"{}\", json=\"{}\". Error: {}", query, json, e);
+      logger.error("Failed to deserialise JSON. Json=\"{}\". Error=\"{}\"", json, e.getMessage());
+      return Optional.empty();
     }
     if (jsonResults != null && !jsonResults.get(0).getName().equals("No results returned")) {
       switch (method) {
@@ -123,6 +125,6 @@ public abstract class JsonResultsReader implements SearchEngine {
       }
     }
     logger.info("{} results found.", results.size());
-    return results;
+    return Optional.of(results);
   }
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -19,7 +20,7 @@ class PirateBayTest {
 
   @Test
   public void search_ShouldSuccessfullyConnectAndReturnResults() {
-    List<SearchResult> results = pb.search("1080p", SearchMethod.QUICK);
+    Optional<List<SearchResult>> results = pb.search("1080p", SearchMethod.QUICK);
     assertFalse(results.isEmpty());
   }
 }

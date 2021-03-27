@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CorsaroBlu extends HtmlResultsReader implements SearchEngine {
@@ -28,7 +29,7 @@ public class CorsaroBlu extends HtmlResultsReader implements SearchEngine {
    * @param method the searching method to apply while parsing the search results.
    * @return the deserialised search results.
    */
-  public List<SearchResult> search(String query, SearchMethod method) {
+  public Optional<List<SearchResult>> search(String query, SearchMethod method) {
     headers.put("authority", "ilcorsaroblu.org");
     headers.put("pragma", "no-cache");
     headers.put("cache-control", "no-cache");

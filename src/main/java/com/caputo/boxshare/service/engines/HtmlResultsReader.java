@@ -31,7 +31,8 @@ public abstract class HtmlResultsReader implements SearchEngine {
    * @param method the searching method to apply while parsing the search results.
    * @return the deserialised search results.
    */
-  protected List<SearchResult> getResults(String url, String rowSelector, SearchMethod method) {
+  protected Optional<List<SearchResult>> getResults(
+      String url, String rowSelector, SearchMethod method) {
     getSearchPage(url).ifPresent(page -> tableRows = page.select(rowSelector));
     return parseTable(tableRows, method);
   }
@@ -59,7 +60,7 @@ public abstract class HtmlResultsReader implements SearchEngine {
    * @param method the searching method to apply while parsing the search results.
    * @return the populated SearchResult objects.
    */
-  protected List<SearchResult> parseTable(Elements rows, SearchMethod method) {
+  protected Optional<List<SearchResult>> parseTable(Elements rows, SearchMethod method) {
     logger.info("Parsing table..");
     List<SearchResult> results = new ArrayList<>();
     if (rows.size() > 0) {
@@ -82,7 +83,7 @@ public abstract class HtmlResultsReader implements SearchEngine {
       }
     }
     logger.info("{} results found.", results.size());
-    return results;
+    return Optional.of(results);
   }
   /**
    * Parses a SearchResult object from an HTML table row.
