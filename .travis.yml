@@ -3,8 +3,11 @@ jdk:
   - openjdk11
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-  - .docs-uploader.sh
-
+  - ./docs-uploader.sh
+branches:
+  only:
+    - master
+    - gh-pages
 env:
   global:
     secure: Gy0ZXpEcT9cykdmnmKaoWggHP/UZHgPK4BTdmzew7yXy8DUSMEFxbYQrRUUV8oL8m4J74jZ1isLdi/H2okr4XQdrI7audX3sxLnq9aqNrdBSbWhNaUppE0qjTdXBsRIwh+0pQonvybyL4MY5mH2CNVJNsAzhC8JskHACwrpsGAOtRUnUNUNcZ15STl0xbchI+IvvLKXIPxKaaGShkJclfeO+kPtCtct5g/d+4uip6AjP9TisgZFyO0dhUr6LlBa+Ihe9V57OmQNsqiFtbMnatgy1wbzyVdxAIqtCDoBp2ggirhulHHn3Xp0/cQFKvh17qR8qq2moJXMMV40QI/OnvrfivFgliVzhfvaDQ8Ja6zWb+HFkbgzSjAhGzfFkgEndWsv6+j2HrQJ+zY8HYfz1iDq6Lc9W5QnJAWUluFusz2/GnPldx2A9PLkRyBgpD2vRKzDfaVOnkN7a7LDc2e+5wXAXBLa5imb7a1NbeBmWK8KznzQTG4qCLwD2DnKLdJzpN9q64sDOftBfn31TXBa7CyxHXmzza7GDi/sTtT7omqCnDENpUxqoJDmDvjWpfbS7Iqih+CK6XvAiX5pts279FPb1NoECiv+k/b1wixWno2zN32ycVh8cCvApe86D8CYJDnWj0zxaYGrr23qaTJEvZ1UzoNctFJObucQF+ud5vtE=
