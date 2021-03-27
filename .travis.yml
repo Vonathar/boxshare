@@ -3,7 +3,7 @@ jdk:
   - openjdk11
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-  - ./docs-uploader.sh
+  - docs-uploader.sh
 branches:
   only:
     - master
