@@ -76,8 +76,7 @@ public class LeetX extends HtmlResultsReader implements SearchEngine {
         srBuilder.setInfoHash(infoHash);
       }
     } catch (IOException e) {
-      logger.error(
-          "Failed to load HTML of search result. URL: \"{}\". Error: {}", resultPageUrl, e);
+      logger.error("Failed to get HTML. URL=\"{}\", Error=\"{}\"", resultPageUrl, e.getMessage());
     }
     return srBuilder.build();
   }

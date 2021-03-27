@@ -48,7 +48,7 @@ public abstract class HtmlResultsReader implements SearchEngine {
     try {
       return Optional.of(Jsoup.connect(url).headers(headers).get());
     } catch (Exception e) {
-      logger.error("Failed to get search page: \"{}\". Error: {}", url, e);
+      logger.error("Failed to get search page. URL=\"{}\", Error=\"{}\"", url, e.getMessage());
       return Optional.empty();
     }
   }

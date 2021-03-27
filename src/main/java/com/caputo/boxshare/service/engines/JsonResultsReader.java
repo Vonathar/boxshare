@@ -65,7 +65,7 @@ public abstract class JsonResultsReader implements SearchEngine {
       HttpRequest request = requestFactory.buildGetRequest(new GenericUrl(url));
       json = request.execute().parseAsString();
     } catch (Exception e) {
-      logger.error("Failed to query {} for: \"{}\". Error: {}", className, query, e);
+      logger.error("Failed to get JSON. Error=\"{}\"", e.getMessage());
     }
     return json;
   }
