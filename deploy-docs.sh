@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$TRAVIS_REPO_SLUG" == "Vonathar/Boxshare" ] && [ "$TRAVIS_JDK_VERSION" == "openjdk11" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
+if [ "$TRAVIS_REPO_SLUG" == "Vonathar/boxshare" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
 
   echo -e "Publishing javadoc...\n"
 
@@ -9,7 +9,7 @@ if [ "$TRAVIS_REPO_SLUG" == "Vonathar/Boxshare" ] && [ "$TRAVIS_JDK_VERSION" == 
   cd $HOME
   git config --global user.email "travis@travis-ci.org"
   git config --global user.name "travis-ci"
-  git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/Vonathar/Boxshare gh-pages >/dev/null
+  git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/Vonathar/boxshare gh-pages >/dev/null
 
   cd gh-pages
   git rm -rf ./javadoc
