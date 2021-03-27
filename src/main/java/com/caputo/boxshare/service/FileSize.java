@@ -10,8 +10,6 @@ import java.util.regex.Pattern;
 
 @Service
 public class FileSize {
-  private final Pattern unitPattern = Pattern.compile("([A-Za-z])+");
-  private final Pattern valuePattern = Pattern.compile("([0-9]+)?\\.?([0-9]+)?");
   private final Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
   private Matcher m;
 
@@ -22,15 +20,13 @@ public class FileSize {
    * @return the value of the input converted to bytes.
    */
   public double toBytes(String input) {
-    try {
-      double value = parseValue(input);
-      double factor = parseFactor(input);
-      return value * factor;
-    } catch (IllegalArgumentException e) {
-      logger.error(
-          "Failed to convert input to bytes. Input: \"" + input + "\". Returning 0 as fallback..");
+    double value = parseValue(input);
+    double factor = parseFactor(input);
+    if (value == 0 | factor == 0) {
+      logger.error("Failed to convert size to bytes. Input=\"" + input + "\"");
       return 0;
     }
+    return value * factor;
   }
 
   /**
@@ -40,12 +36,16 @@ public class FileSize {
    * @return the factor to use to transform the value into bytes.
    */
   private double parseFactor(String input) {
+    Pattern unitPattern = Pattern.compile("([A-Za-z])+");
     m = unitPattern.matcher(input);
     if (m.find()) {
-      return SizeUnit.valueOf(m.group(0).toUpperCase()).getFactor();
-    } else {
-      throw new IllegalArgumentException("Failed to parse factor. Input: \"" + input + "\"");
+      try {
+        return SizeUnit.valueOf(m.group(0).toUpperCase()).getFactor();
+      } catch (IllegalArgumentException e) {
+        logger.error("Failed to parse factor. Input=\"{}\"", input);
+      }
     }
+    return 0;
   }
 
   /**
@@ -55,11 +55,15 @@ public class FileSize {
    * @return the numerical value to multiply by the factor.
    */
   private double parseValue(String input) {
+    Pattern valuePattern = Pattern.compile("([0-9]+)?\\.?([0-9]+)?");
     m = valuePattern.matcher(input);
     if (m.find()) {
-      return Double.parseDouble(m.group(0));
-    } else {
-      throw new IllegalArgumentException("Failed to parse value. Input: \"" + input + "\"");
+      try {
+        return Double.parseDouble(m.group(0));
+      } catch (NumberFormatException e) {
+        logger.error("Failed to parse value. Input=\"{}\"", input);
+      }
     }
+    return 0;
   }
 }
