@@ -63,24 +63,26 @@ public abstract class HtmlResultsReader implements SearchEngine {
   protected Optional<List<SearchResult>> parseTable(Elements rows, SearchMethod method) {
     logger.info("Parsing table..");
     List<SearchResult> results = new ArrayList<>();
-    if (rows.size() > 0) {
-      switch (method) {
-        case QUICK:
-          results.add(parseRow(rows.get(0)));
-          break;
-        case COMPLETE:
-          rows.forEach(row -> results.add(parseRow(row)));
-          break;
-        case SMART:
-          int totalParsed = 0;
-          for (int i = 0; i < rows.size() && totalParsed < SMART_SEARCH_MAX_RESULTS; i++) {
-            SearchResult result = parseRow(rows.get(i));
-            if (result.getSeeders() >= SMART_SEARCH_MIN_SEEDS) {
-              results.add(result);
-              totalParsed++;
-            }
+    if (rows.size() < 1) {
+      logger.error("No parsable row found.");
+      return Optional.empty();
+    }
+    switch (method) {
+      case QUICK:
+        results.add(parseRow(rows.get(0)));
+        break;
+      case COMPLETE:
+        rows.forEach(row -> results.add(parseRow(row)));
+        break;
+      case SMART:
+        int totalParsed = 0;
+        for (int i = 0; i < rows.size() && totalParsed < SMART_SEARCH_MAX_RESULTS; i++) {
+          SearchResult result = parseRow(rows.get(i));
+          if (result.getSeeders() >= SMART_SEARCH_MIN_SEEDS) {
+            results.add(result);
+            totalParsed++;
           }
-      }
+        }
     }
     logger.info("{} results found.", results.size());
     return Optional.of(results);
