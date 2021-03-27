@@ -30,7 +30,7 @@ class HtmlResultsReaderTest {
   private final MockEngine engine = new MockEngine();
   Elements mockRows;
 
-  @Value("classpath:mockResults.html")
+  @Value("classpath:mockHtmlResults.html")
   Resource resource;
 
   @BeforeAll
