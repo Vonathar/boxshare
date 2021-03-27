@@ -2,7 +2,6 @@ package com.caputo.boxshare.service.engines;
 
 import com.caputo.boxshare.builder.SearchResultBuilder;
 import com.caputo.boxshare.entity.JsonSearchResult;
-import com.caputo.boxshare.entity.PirateBaySearchResults;
 import com.caputo.boxshare.entity.SearchResult;
 import com.caputo.boxshare.enumerable.SearchMethod;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -15,7 +14,6 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -66,7 +64,7 @@ public abstract class JsonResultsReader implements SearchEngine {
       HttpRequestFactory requestFactory = new NetHttpTransport().createRequestFactory();
       HttpRequest request = requestFactory.buildGetRequest(new GenericUrl(url));
       json = request.execute().parseAsString();
-    } catch (IOException e) {
+    } catch (Exception e) {
       logger.error("Failed to query {} for: \"{}\". Error: {}", className, query, e);
     }
     return json;
@@ -99,7 +97,7 @@ public abstract class JsonResultsReader implements SearchEngine {
   protected <T> Optional<List<SearchResult>> deserialiseJson(
       String json, TypeReference<T> typeRef) {
     List<SearchResult> results = new ArrayList<>();
-    List<PirateBaySearchResults> jsonResults = null;
+    List<JsonSearchResult> jsonResults;
     try {
       jsonResults = new ObjectMapper().reader().forType(typeRef).readValue(json);
     } catch (JsonProcessingException e) {
@@ -115,7 +113,7 @@ public abstract class JsonResultsReader implements SearchEngine {
           jsonResults.forEach(r -> results.add(parseResult(r)));
           break;
         case SMART:
-          List<PirateBaySearchResults> filteredResults =
+          List<JsonSearchResult> filteredResults =
               jsonResults.stream()
                   .filter(r -> r.getSeeders() > SMART_SEARCH_MIN_SEEDS)
                   .collect(Collectors.toList());
