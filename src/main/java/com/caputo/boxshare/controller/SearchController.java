@@ -32,7 +32,8 @@ public class SearchController {
   /**
    * Searches for a given term on all available torrent engines.
    *
-   * @param query the search term.
+   * @param query the term to search.
+   * @param method the searching method to apply while parsing the search results.
    * @return the list of torrent results.
    */
   @GetMapping("search/{query}")

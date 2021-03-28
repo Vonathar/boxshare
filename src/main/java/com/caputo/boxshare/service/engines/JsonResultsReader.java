@@ -39,7 +39,10 @@ public abstract class JsonResultsReader implements SearchEngine {
    * Queries the engine and fetches the deserialised search results.
    *
    * @param query the term to search.
+   * @param url the URL to query for the JSON.
    * @param method the searching method to apply while parsing the search results.
+   * @param typeRef the type reference to use when deserialising the results.
+   * @param <T> the entity class to use when deserialising the results.
    * @return the deserialised search results.
    */
   protected <T> Optional<List<SearchResult>> getResults(

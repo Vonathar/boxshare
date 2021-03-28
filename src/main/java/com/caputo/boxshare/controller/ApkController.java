@@ -19,7 +19,7 @@ import java.io.InputStream;
 
 /**
  * This controller is responsible for all requests that concern the client APK. The APK is expected
- * to be in the resources directory, with a name in the format: boxshare_<MAJ>_<MIN>_<REV>.apk (for
+ * to be in the resources directory, with a name in the format: boxshare_MAJ_MIN_REV.apk (for
  * example, boxshare_0_0_1.apk).
  */
 @RestController
