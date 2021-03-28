@@ -2,12 +2,16 @@ package com.caputo.boxshare.builder;
 
 import com.caputo.boxshare.entity.ResultList;
 import com.caputo.boxshare.entity.SearchResult;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
+/**
+ * A class responsible for creating new instances of ResultList objects. Before returning the built
+ * object, the list of results is sorted by the number of seeders (in ascending order). For more
+ * information about the instanced class, see {@link ResultList}.
+ */
 @Service
 public class ResultListBuilder {
   private List<SearchResult> results = new ArrayList<>();

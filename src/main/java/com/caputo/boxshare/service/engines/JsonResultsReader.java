@@ -11,16 +11,18 @@ import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
- * This class is responsible for parsing and deserialising the JSON search results of any engine.
+ * A class to be extended by search engine classes that retrieve search results as JSON. This class
+ * provides multiple methods for common serialisation actions shared by all engines, and only
+ * requires its children to specify a type reference of the entity to use when serialising results.
+ * For an example of a class that extends this abstract class, see {@link PirateBay}.
  */
 public abstract class JsonResultsReader implements SearchEngine {
 
@@ -40,7 +42,7 @@ public abstract class JsonResultsReader implements SearchEngine {
    *
    * @param query the term to search.
    * @param url the URL to query for the JSON.
-   * @param method the searching method to apply while parsing the search results.
+   * @param method the searching method to apply while parsing the results.
    * @param typeRef the type reference to use when deserialising the results.
    * @param <T> the entity class to use when deserialising the results.
    * @return the deserialised search results.

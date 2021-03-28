@@ -5,6 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+/**
+ * A class responsible for creating new instances of SearchResult objects. For more information
+ * about the instanced class, see {@link SearchResult}.
+ */
 @Service
 public class SearchResultBuilder {
 

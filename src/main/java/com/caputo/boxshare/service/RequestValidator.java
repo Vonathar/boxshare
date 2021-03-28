@@ -3,6 +3,7 @@ package com.caputo.boxshare.service;
 import com.caputo.boxshare.enumerable.SearchMethod;
 import org.springframework.stereotype.Service;
 
+/** A class responsible for validating incoming requests. */
 @Service
 public class RequestValidator {
 

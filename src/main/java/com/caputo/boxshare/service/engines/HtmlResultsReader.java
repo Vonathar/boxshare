@@ -2,18 +2,20 @@ package com.caputo.boxshare.service.engines;
 
 import com.caputo.boxshare.entity.SearchResult;
 import com.caputo.boxshare.enumerable.SearchMethod;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 /**
- * This class is responsible for parsing and deserialising the HTML search results of any engine.
+ * A class to be extended by search engine classes that scrape search results from HTML pages. This
+ * class provides multiple methods for common scraping actions shared by all engines, but expects
+ * its children to implement specific ways to scrape individual search results. For an example of a
+ * class that extends this abstract class, see {@link CorsaroNero} and {@link LeetX}.
  */
 public abstract class HtmlResultsReader implements SearchEngine {
 
@@ -28,7 +30,7 @@ public abstract class HtmlResultsReader implements SearchEngine {
   /**
    * @param url the URL of the search page.
    * @param rowSelector the CSS selector of the individual table rows that hold search results.
-   * @param method the searching method to apply while parsing the search results.
+   * @param method the searching method to apply while parsing the results.
    * @return the deserialised search results.
    */
   protected Optional<List<SearchResult>> getResults(
@@ -57,7 +59,7 @@ public abstract class HtmlResultsReader implements SearchEngine {
    * Parses a list of SearchResult objects from the HTML table rows of the search page.
    *
    * @param rows the HTML rows of the search page.
-   * @param method the searching method to apply while parsing the search results.
+   * @param method the searching method to apply while parsing the results.
    * @return the populated SearchResult objects.
    */
   protected Optional<List<SearchResult>> parseTable(Elements rows, SearchMethod method) {

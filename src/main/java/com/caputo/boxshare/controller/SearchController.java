@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-/**
- * This controller is responsible for all requests that concern the torrent searches. To change the
- * list of enabled search engines, refer to the TorrentSearcher class.
- */
+/** A controller responsible for requests that concern the torrent searches. */
 @RestController
 public class SearchController {
 
@@ -30,10 +27,11 @@ public class SearchController {
   }
 
   /**
-   * Searches for a given term on all available torrent engines.
+   * Searches for a given term on all available torrent engines. To change the list of enabled
+   * search engines, refer to {@link TorrentSearcher}.
    *
    * @param query the term to search.
-   * @param method the searching method to apply while parsing the search results.
+   * @param method the searching method to apply while parsing the results.
    * @return the list of torrent results.
    */
   @GetMapping("search/{query}")

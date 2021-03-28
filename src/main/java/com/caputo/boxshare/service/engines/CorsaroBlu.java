@@ -3,13 +3,13 @@ package com.caputo.boxshare.service.engines;
 import com.caputo.boxshare.builder.SearchResultBuilder;
 import com.caputo.boxshare.entity.SearchResult;
 import com.caputo.boxshare.enumerable.SearchMethod;
+import java.util.List;
+import java.util.Optional;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-
+/** A class responsible for querying the torrent search engine CorsaroBlu. */
 @Service
 public class CorsaroBlu extends HtmlResultsReader implements SearchEngine {
 
@@ -23,11 +23,11 @@ public class CorsaroBlu extends HtmlResultsReader implements SearchEngine {
   }
 
   /**
-   * Queries CorsaroBlu and fetches the deserialised search results.
+   * Queries CorsaroBlu and returns the serialised search results.
    *
-   * @param query the term to search on CorsaroNero.
-   * @param method the searching method to apply while parsing the search results.
-   * @return the deserialised search results.
+   * @param query the term to search on CorsaroBlu.
+   * @param method the searching method to apply while parsing the results.
+   * @return the serialised search results.
    */
   public Optional<List<SearchResult>> search(String query, SearchMethod method) {
     headers.put("authority", "ilcorsaroblu.org");
@@ -75,7 +75,7 @@ public class CorsaroBlu extends HtmlResultsReader implements SearchEngine {
    * Parses a SearchResult object from an HTML table row.
    *
    * @param row an HTML row of the search page.
-   * @return the populated SearchResult object.
+   * @return the serialised SearchResult object.
    */
   protected SearchResult parseRow(Element row) {
     logger.info("Parsing row..");
@@ -90,7 +90,6 @@ public class CorsaroBlu extends HtmlResultsReader implements SearchEngine {
             .replace("download.php?id=", "")
             .replace("magnet:?xt=urn:btih:", "");
     hash = hash.substring(0, Math.min(hash.length(), 40));
-    ;
     String seeders = row.select(SEEDERS_SELECTOR).text();
     String size = row.select(SIZE_SELECTOR).text();
     if (name.isEmpty() | seeders.isEmpty() | hash.isEmpty()) {

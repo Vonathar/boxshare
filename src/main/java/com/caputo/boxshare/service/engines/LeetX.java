@@ -3,16 +3,16 @@ package com.caputo.boxshare.service.engines;
 import com.caputo.boxshare.builder.SearchResultBuilder;
 import com.caputo.boxshare.entity.SearchResult;
 import com.caputo.boxshare.enumerable.SearchMethod;
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-
+/** A class responsible for querying the torrent search engine 1337X. */
 @Service
 public class LeetX extends HtmlResultsReader implements SearchEngine {
 
@@ -26,11 +26,11 @@ public class LeetX extends HtmlResultsReader implements SearchEngine {
   }
 
   /**
-   * Queries 1337X and fetches the deserialised search results.
+   * Queries 1337X and returns the serialised search results.
    *
-   * @param query the term to search on TPB.
-   * @param method the searching method to apply while parsing the search results.
-   * @return the deserialised search results.
+   * @param query the term to search on 1337X.
+   * @param method the searching method to apply while parsing the results.
+   * @return the serialised search results.
    */
   public Optional<List<SearchResult>> search(String query, SearchMethod method) {
     logger.info("Searching for \"{}\" on {} ({})..", query, className, method);

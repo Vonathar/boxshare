@@ -1,5 +1,9 @@
 package com.caputo.boxshare.enumerable;
 
+/**
+ * An enumerable representing the most common unit prefixes found when parsing search results, as
+ * well as their factors.
+ */
 public enum SizeUnit {
   BYTE(1),
   KIB(1024D),
@@ -11,7 +15,7 @@ public enum SizeUnit {
 
   public final double factor;
 
-  private SizeUnit(double factor) {
+  SizeUnit(double factor) {
     this.factor = factor;
   }
 

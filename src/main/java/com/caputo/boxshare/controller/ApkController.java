@@ -1,5 +1,9 @@
 package com.caputo.boxshare.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,15 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
 /**
- * This controller is responsible for all requests that concern the client APK. The APK is expected
- * to be in the resources directory, with a name in the format: boxshare_MAJ_MIN_REV.apk (for
- * example, boxshare_0_0_1.apk).
+ * A controller responsible for requests that concern the client APK. The APK is expected to be in
+ * the resources directory, with a name in the format: boxshare_MAJ_MIN_REV.apk (for example,
+ * boxshare_0_0_1.apk).
  */
 @RestController
 public class ApkController {

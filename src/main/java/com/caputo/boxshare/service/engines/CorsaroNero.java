@@ -3,13 +3,13 @@ package com.caputo.boxshare.service.engines;
 import com.caputo.boxshare.builder.SearchResultBuilder;
 import com.caputo.boxshare.entity.SearchResult;
 import com.caputo.boxshare.enumerable.SearchMethod;
+import java.util.List;
+import java.util.Optional;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-
+/** A class responsible for querying the torrent search engine CorsaroNero. */
 @Service
 public class CorsaroNero extends HtmlResultsReader implements SearchEngine {
 
@@ -23,11 +23,11 @@ public class CorsaroNero extends HtmlResultsReader implements SearchEngine {
   }
 
   /**
-   * Queries CorsaroNero and fetches the deserialised search results.
+   * Queries CorsaroNero and returns the serialised search results.
    *
    * @param query the term to search on CorsaroNero.
-   * @param method the searching method to apply while parsing the search results.
-   * @return the deserialised search results.
+   * @param method the searching method to apply while parsing the results.
+   * @return the serialised search results.
    */
   public Optional<List<SearchResult>> search(String query, SearchMethod method) {
     logger.info("Searching for \"{}\" on {} ({})..", query, className, method);
@@ -42,7 +42,7 @@ public class CorsaroNero extends HtmlResultsReader implements SearchEngine {
    * Parses a SearchResult object from an HTML table row.
    *
    * @param row an HTML row of the search page.
-   * @return the populated SearchResult object.
+   * @return the populated SearchResult object, or null for non-parsable inputs.
    */
   protected SearchResult parseRow(Element row) {
     logger.info("Parsing row..");

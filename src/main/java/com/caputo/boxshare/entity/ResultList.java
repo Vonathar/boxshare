@@ -3,7 +3,7 @@ package com.caputo.boxshare.entity;
 import java.util.List;
 
 /**
- * This class represents the unified collection of SearchResult objects that are returned by each
+ * A class representing the unified collection of SearchResult objects that are returned by each
  * search engine. Their instantiation is directly handled by a builder class.
  */
 public class ResultList {
