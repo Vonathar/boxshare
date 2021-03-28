@@ -46,6 +46,10 @@ The Boxshare Client APK is available for Android devices, providing a simple UI 
 The APK is completely optional, as it was only created to make it easier to communicate with the
 server remotely from an Android device such as a TV box.
 
+### Documentation
+
+You can find the complete documentation [here](https://vonathar.github.io/boxshare/).
+
 ## Piracy notice
 
 This project is for educational purposes only. I do not condone piracy in any way, and I am not
