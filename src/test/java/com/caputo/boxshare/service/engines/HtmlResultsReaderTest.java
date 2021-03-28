@@ -1,7 +1,16 @@
 package com.caputo.boxshare.service.engines;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.caputo.boxshare.entity.SearchResult;
 import com.caputo.boxshare.enumerable.SearchMethod;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Optional;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -13,16 +22,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.util.FileCopyUtils;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -47,25 +46,25 @@ class HtmlResultsReaderTest {
   }
 
   @Test
-  public void parseTable_NoRows_ShouldReturnEmptyOptional() {
-    assertTrue(engine.parseTable(new Elements(0), SearchMethod.QUICK).isEmpty());
+  public void parseResults_NoRows_ShouldReturnEmptyOptional() {
+    assertTrue(engine.parseResults(new Elements(0), SearchMethod.QUICK).isEmpty());
   }
 
   @Test
-  public void parseTable_QuickSearch_ShouldReturnSingleResult() {
-    assertEquals(engine.parseTable(mockRows, SearchMethod.QUICK).get().size(), 1);
+  public void parseResults_QuickSearch_ShouldReturnSingleResult() {
+    assertEquals(engine.parseResults(mockRows, SearchMethod.QUICK).get().size(), 1);
   }
 
   @Test
-  public void parseTable_SmartSearch_ShouldNotReturnMoreResultsThanAllowed() {
-    assertThat(engine.parseTable(mockRows, SearchMethod.SMART).get().size())
+  public void parseResults_SmartSearch_ShouldNotReturnMoreResultsThanAllowed() {
+    assertThat(engine.parseResults(mockRows, SearchMethod.SMART).get().size())
         .isLessThanOrEqualTo(MockEngine.MOCK_SMART_SEARCH_MAX_RESULTS);
   }
 
   @Test
-  public void parseTable_SmartSearch_ShouldNotReturnResultsWithLessSeedersThanAllowed() {
+  public void parseResults_SmartSearch_ShouldNotReturnResultsWithLessSeedersThanAllowed() {
     engine
-        .parseTable(mockRows, SearchMethod.SMART)
+        .parseResults(mockRows, SearchMethod.SMART)
         .get()
         .forEach(
             searchResult -> {
@@ -75,8 +74,9 @@ class HtmlResultsReaderTest {
   }
 
   @Test
-  public void parseTable_CompleteSearch_ShouldReturnEveryAvailableResult() {
-    assertEquals(engine.parseTable(mockRows, SearchMethod.COMPLETE).get().size(), mockRows.size());
+  public void parseResults_CompleteSearch_ShouldReturnEveryAvailableResult() {
+    assertEquals(
+        engine.parseResults(mockRows, SearchMethod.COMPLETE).get().size(), mockRows.size());
   }
 
   static class MockEngine extends HtmlResultsReader {
@@ -90,12 +90,12 @@ class HtmlResultsReaderTest {
     }
 
     @Override
-    protected SearchResult parseRow(Element row) {
+    protected SearchResult parseResult(Element htmlResult) {
       return new SearchResult(
-          row.select(".name").text(),
-          row.select(".hash").text(),
-          Integer.parseInt(row.select(".seeders").text()),
-          row.select(".size").text(),
+          htmlResult.select(".name").text(),
+          htmlResult.select(".hash").text(),
+          Integer.parseInt(htmlResult.select(".seeders").text()),
+          htmlResult.select(".size").text(),
           "o");
     }
 

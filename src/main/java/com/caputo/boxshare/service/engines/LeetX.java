@@ -42,21 +42,21 @@ public class LeetX extends HtmlResultsReader implements SearchEngine {
   /**
    * Parses a SearchResult object from an HTML table row.
    *
-   * @param row an HTML row of the search page.
+   * @param htmlResult an HTML row of the search page.
    * @return the populated SearchResult object, or null for non-parsable inputs.
    */
-  protected SearchResult parseRow(Element row) {
+  protected SearchResult parseResult(Element htmlResult) {
     logger.info("Parsing row..");
     String NAME_SELECTOR = ".coll-1";
     String SEEDERS_SELECTOR = ".coll-2";
     String SIZE_SELECTOR = ".coll-4";
     String ANCHOR_SELECTOR = ".coll-1 a:nth-child(2)";
-    String name = row.select(NAME_SELECTOR).text();
-    String seeders = row.select(SEEDERS_SELECTOR).text();
-    String size = row.select(SIZE_SELECTOR).text();
-    String resultPageUrl = BASE_URL + row.select(ANCHOR_SELECTOR).attr("href");
+    String name = htmlResult.select(NAME_SELECTOR).text();
+    String seeders = htmlResult.select(SEEDERS_SELECTOR).text();
+    String size = htmlResult.select(SIZE_SELECTOR).text();
+    String resultPageUrl = BASE_URL + htmlResult.select(ANCHOR_SELECTOR).attr("href");
     if (name.isEmpty() | seeders.isEmpty() | resultPageUrl.isEmpty()) {
-      logger.error("Failed to parse required information from row: {}", row);
+      logger.error("Failed to parse required information from row: {}", htmlResult);
       return null;
     } else {
       srBuilder

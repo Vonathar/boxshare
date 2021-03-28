@@ -1,17 +1,16 @@
 package com.caputo.boxshare.service.engines;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import com.caputo.boxshare.entity.SearchResult;
 import com.caputo.boxshare.enumerable.SearchMethod;
+import java.util.List;
+import java.util.Optional;
 import org.jsoup.nodes.Element;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest
 class CorsaroBluTest {
@@ -26,6 +25,6 @@ class CorsaroBluTest {
 
   @Test
   public void parseRow_NonParsableRow_ShouldReturnNull() {
-    assertNull(corsaroBlu.parseRow(new Element("tr")));
+    assertNull(corsaroBlu.parseResult(new Element("tr")));
   }
 }

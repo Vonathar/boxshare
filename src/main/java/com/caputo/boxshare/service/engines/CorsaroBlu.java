@@ -74,26 +74,27 @@ public class CorsaroBlu extends HtmlResultsReader implements SearchEngine {
   /**
    * Parses a SearchResult object from an HTML table row.
    *
-   * @param row an HTML row of the search page.
+   * @param htmlResult an HTML row of the search page.
    * @return the serialised SearchResult object.
    */
-  protected SearchResult parseRow(Element row) {
+  protected SearchResult parseResult(Element htmlResult) {
     logger.info("Parsing row..");
     String NAME_SELECTOR = "td:nth-child(2) > a";
     String SEEDERS_SELECTOR = "td:nth-child(6)";
     String SIZE_SELECTOR = "td:nth-child(10)";
     String HASH_SELECTOR = "td:nth-child(4) > a";
-    String name = row.select(NAME_SELECTOR).text();
+    String name = htmlResult.select(NAME_SELECTOR).text();
     String hash =
-        row.select(HASH_SELECTOR)
+        htmlResult
+            .select(HASH_SELECTOR)
             .attr("href")
             .replace("download.php?id=", "")
             .replace("magnet:?xt=urn:btih:", "");
     hash = hash.substring(0, Math.min(hash.length(), 40));
-    String seeders = row.select(SEEDERS_SELECTOR).text();
-    String size = row.select(SIZE_SELECTOR).text();
+    String seeders = htmlResult.select(SEEDERS_SELECTOR).text();
+    String size = htmlResult.select(SIZE_SELECTOR).text();
     if (name.isEmpty() | seeders.isEmpty() | hash.isEmpty()) {
-      logger.error("Failed to parse required information from row: {}", row);
+      logger.error("Failed to parse required information from row: {}", htmlResult);
       return null;
     } else {
       return srBuilder

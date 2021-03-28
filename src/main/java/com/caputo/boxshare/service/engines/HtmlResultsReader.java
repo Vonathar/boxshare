@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
  */
 public abstract class HtmlResultsReader implements SearchEngine {
 
-  Elements tableRows;
+  Elements htmlResults;
 
   @Value("${search.smart.minSeeders}")
   private int SMART_SEARCH_MIN_SEEDS;
@@ -28,19 +28,21 @@ public abstract class HtmlResultsReader implements SearchEngine {
   private int SMART_SEARCH_MAX_RESULTS;
 
   /**
+   * Parses and aggregates all available search results.
+   *
    * @param url the URL of the search page.
-   * @param rowSelector the CSS selector of the individual table rows that hold search results.
+   * @param resultSelector the CSS selector of the individual table rows that hold search results.
    * @param method the searching method to apply while parsing the results.
    * @return the deserialised search results.
    */
   protected Optional<List<SearchResult>> getResults(
-      String url, String rowSelector, SearchMethod method) {
-    getSearchPage(url).ifPresent(page -> tableRows = page.select(rowSelector));
-    return parseTable(tableRows, method);
+      String url, String resultSelector, SearchMethod method) {
+    getSearchPage(url).ifPresent(page -> htmlResults = page.select(resultSelector));
+    return parseResults(htmlResults, method);
   }
 
   /**
-   * Fetches the HTML document of the search page for a given query.
+   * Fetches the HTML document of the search page.
    *
    * @param url the URL of the search page.
    * @return the HTML document of the search page.
@@ -56,30 +58,31 @@ public abstract class HtmlResultsReader implements SearchEngine {
   }
 
   /**
-   * Parses a list of SearchResult objects from the HTML table rows of the search page.
+   * Parses a list of SearchResult objects from the HTML of each search result.
    *
-   * @param rows the HTML rows of the search page.
+   * @param htmlResults the HTML htmlResults of the search page.
    * @param method the searching method to apply while parsing the results.
-   * @return the populated SearchResult objects.
+   * @return the populated SearchResult objects, or an empty optional when there are no results.
    */
-  protected Optional<List<SearchResult>> parseTable(Elements rows, SearchMethod method) {
-    logger.info("Parsing table..");
+  protected Optional<List<SearchResult>> parseResults(Elements htmlResults, SearchMethod method) {
+    logger.info("Parsing results..");
     List<SearchResult> results = new ArrayList<>();
-    if (rows.size() < 1) {
-      logger.error("No parsable row found.");
+    if (htmlResults.size() < 1) {
+      logger.error("No parsable result found.");
       return Optional.empty();
     }
     switch (method) {
       case QUICK:
-        results.add(parseRow(rows.get(0)));
+        results.add(parseResult(htmlResults.get(0)));
         break;
       case COMPLETE:
-        rows.forEach(row -> results.add(parseRow(row)));
+        htmlResults.forEach(row -> results.add(parseResult(row)));
         break;
       case SMART:
-        int totalParsed = 0;
-        for (int i = 0; i < rows.size() && totalParsed < SMART_SEARCH_MAX_RESULTS; i++) {
-          SearchResult result = parseRow(rows.get(i));
+        for (int i = 0, totalParsed = 0;
+            i < htmlResults.size() && totalParsed < SMART_SEARCH_MAX_RESULTS;
+            i++) {
+          SearchResult result = parseResult(htmlResults.get(i));
           if (result.getSeeders() >= SMART_SEARCH_MIN_SEEDS) {
             results.add(result);
             totalParsed++;
@@ -90,10 +93,10 @@ public abstract class HtmlResultsReader implements SearchEngine {
     return Optional.of(results);
   }
   /**
-   * Parses a SearchResult object from an HTML table row.
+   * Parses a SearchResult object from an HTML result.
    *
-   * @param row an HTML row of the search page.
+   * @param htmlResult an HTML htmlResult of the search page.
    * @return the populated SearchResult object.
    */
-  protected abstract SearchResult parseRow(Element row);
+  protected abstract SearchResult parseResult(Element htmlResult);
 }

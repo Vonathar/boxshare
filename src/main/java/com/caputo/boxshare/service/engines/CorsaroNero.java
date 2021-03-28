@@ -41,24 +41,24 @@ public class CorsaroNero extends HtmlResultsReader implements SearchEngine {
   /**
    * Parses a SearchResult object from an HTML table row.
    *
-   * @param row an HTML row of the search page.
+   * @param htmlResult an HTML row of the search page.
    * @return the populated SearchResult object, or null for non-parsable inputs.
    */
-  protected SearchResult parseRow(Element row) {
+  protected SearchResult parseResult(Element htmlResult) {
     logger.info("Parsing row..");
     String NAME_SELECTOR = "td:nth-child(2) a.tab";
     String SEEDERS_SELECTOR = "td:nth-child(6) > font";
     String SIZE_SELECTOR = "td:nth-child(3) > font";
     String HASH_SELECTOR = "td:nth-child(4) > form > input";
-    String name = row.select(NAME_SELECTOR).text();
-    String hash = row.select(HASH_SELECTOR).attr("value");
-    String seeders = row.select(SEEDERS_SELECTOR).text();
+    String name = htmlResult.select(NAME_SELECTOR).text();
+    String hash = htmlResult.select(HASH_SELECTOR).attr("value");
+    String seeders = htmlResult.select(SEEDERS_SELECTOR).text();
     if (seeders.equals("n/a")) {
       seeders = "-1";
     }
-    String size = row.select(SIZE_SELECTOR).text();
+    String size = htmlResult.select(SIZE_SELECTOR).text();
     if (name.isEmpty() | hash.isEmpty()) {
-      logger.error("Failed to parse required information from row: {}", row);
+      logger.error("Failed to parse required information from row: {}", htmlResult);
       return null;
     } else {
       return srBuilder
