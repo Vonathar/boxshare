@@ -33,7 +33,7 @@ public abstract class HtmlResultsReader implements SearchEngine {
    * @param url the URL of the search page.
    * @param resultSelector the CSS selector of the individual table rows that hold search results.
    * @param method the searching method to apply while parsing the results.
-   * @return the deserialised search results.
+   * @return the serialised search results.
    */
   protected Optional<List<SearchResult>> getResults(
       String url, String resultSelector, SearchMethod method) {

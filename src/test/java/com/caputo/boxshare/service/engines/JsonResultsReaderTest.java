@@ -1,11 +1,21 @@
 package com.caputo.boxshare.service.engines;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.caputo.boxshare.builder.SearchResultBuilder;
 import com.caputo.boxshare.entity.JsonSearchResult;
 import com.caputo.boxshare.entity.SearchResult;
 import com.caputo.boxshare.enumerable.SearchMethod;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -14,15 +24,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.util.FileCopyUtils;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -47,27 +48,27 @@ class JsonResultsReaderTest {
   }
 
   @Test
-  public void deserialiseJson_IllegalInputJson_ShouldReturnEmptyOptional() {
-    assertTrue(engine.deserialiseJson("[{non parsable json}]", mockTypeRef).isEmpty());
+  public void serialiseJson_IllegalInputJson_ShouldReturnEmptyOptional() {
+    assertTrue(engine.serialiseJson("[{non parsable json}]", mockTypeRef).isEmpty());
   }
 
   @Test
-  public void deserialiseJson_QuickSearch_ShouldReturnSingleResult() {
+  public void serialiseJson_QuickSearch_ShouldReturnSingleResult() {
     ReflectionTestUtils.setField(engine, "method", SearchMethod.QUICK);
-    assertEquals(engine.deserialiseJson(mockJson, mockTypeRef).get().size(), 1);
+    assertEquals(engine.serialiseJson(mockJson, mockTypeRef).get().size(), 1);
   }
 
   @Test
-  public void deserialiseJson_SmartSearch_ShouldNotReturnMoreResultsThanAllowed() {
+  public void serialiseJson_SmartSearch_ShouldNotReturnMoreResultsThanAllowed() {
     ReflectionTestUtils.setField(engine, "method", SearchMethod.SMART);
-    assertThat(engine.deserialiseJson(mockJson, mockTypeRef).get().size())
+    assertThat(engine.serialiseJson(mockJson, mockTypeRef).get().size())
         .isLessThanOrEqualTo(MockEngine.MOCK_SMART_SEARCH_MAX_RESULTS);
   }
 
   @Test
-  public void deserialiseJson_SmartSearch_ShouldNotReturnResultsWithLessSeedersThanAllowed() {
+  public void serialiseJson_SmartSearch_ShouldNotReturnResultsWithLessSeedersThanAllowed() {
     ReflectionTestUtils.setField(engine, "method", SearchMethod.SMART);
-    List<SearchResult> results = engine.deserialiseJson(mockJson, mockTypeRef).get();
+    List<SearchResult> results = engine.serialiseJson(mockJson, mockTypeRef).get();
     results.forEach(
         searchResult ->
             assertThat(searchResult.getSeeders())
@@ -75,9 +76,9 @@ class JsonResultsReaderTest {
   }
 
   @Test
-  public void deserialiseJson_CompleteSearch_ShouldReturnEveryAvailableResult() {
+  public void serialiseJson_CompleteSearch_ShouldReturnEveryAvailableResult() {
     ReflectionTestUtils.setField(engine, "method", SearchMethod.COMPLETE);
-    assertEquals(engine.deserialiseJson(mockJson, mockTypeRef).get().size(), 11);
+    assertEquals(engine.serialiseJson(mockJson, mockTypeRef).get().size(), 11);
   }
 
   static class MockEngine extends JsonResultsReader {

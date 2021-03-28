@@ -38,14 +38,14 @@ public abstract class JsonResultsReader implements SearchEngine {
   private int SMART_SEARCH_MAX_RESULTS;
 
   /**
-   * Queries the engine and fetches the deserialised search results.
+   * Queries the engine and fetches the serialised search results.
    *
    * @param query the term to search.
    * @param url the URL to query for the JSON.
    * @param method the searching method to apply while parsing the results.
-   * @param typeRef the type reference to use when deserialising the results.
-   * @param <T> the entity class to use when deserialising the results.
-   * @return the deserialised search results.
+   * @param typeRef the type reference to use when serialising the results.
+   * @param <T> the entity class to use when serialising the results.
+   * @return the serialised search results.
    */
   protected <T> Optional<List<SearchResult>> getResults(
       String query, String url, SearchMethod method, TypeReference<T> typeRef) {
@@ -54,7 +54,7 @@ public abstract class JsonResultsReader implements SearchEngine {
     this.className = this.getClass().getSimpleName();
     logger.info("Searching for \"{}\" on {} ({})..", query, className, method);
     String json = getJson(url);
-    return deserialiseJson(json, typeRef);
+    return serialiseJson(json, typeRef);
   }
 
   /**
@@ -92,21 +92,20 @@ public abstract class JsonResultsReader implements SearchEngine {
   }
 
   /**
-   * Builds a list of SearchResult by deserialising the input json.
+   * Builds a list of SearchResult by serialising the input json.
    *
-   * @param json the input to deserialise.
-   * @param typeRef the type reference to use when deserialising.
-   * @param <T> the entity to use for deserialisation.
+   * @param json the input to serialise.
+   * @param typeRef the type reference to use when serialising.
+   * @param <T> the entity to use for serialisation.
    * @return a list of populated SearchResult instances.
    */
-  protected <T> Optional<List<SearchResult>> deserialiseJson(
-      String json, TypeReference<T> typeRef) {
+  protected <T> Optional<List<SearchResult>> serialiseJson(String json, TypeReference<T> typeRef) {
     List<SearchResult> results = new ArrayList<>();
     List<JsonSearchResult> jsonResults;
     try {
       jsonResults = new ObjectMapper().reader().forType(typeRef).readValue(json);
     } catch (JsonProcessingException e) {
-      logger.error("Failed to deserialise JSON. Json=\"{}\". Error=\"{}\"", json, e.getMessage());
+      logger.error("Failed to serialise JSON. Json=\"{}\". Error=\"{}\"", json, e.getMessage());
       return Optional.empty();
     }
     if (jsonResults != null && !jsonResults.get(0).getName().equals("No results returned")) {

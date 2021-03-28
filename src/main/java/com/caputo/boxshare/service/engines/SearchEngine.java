@@ -24,7 +24,7 @@ public interface SearchEngine {
                   + "(KHTML, like Gecko) Chrome/88.0.4324.186 Safari/537.36"));
 
   /**
-   * Queries the search engine and fetches the deserialised search results.
+   * Queries the search engine for the serialised search results.
    *
    * @param query the term to search.
    * @param method the searching method to apply while parsing the results.
