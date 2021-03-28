@@ -4,7 +4,6 @@ jdk:
 branches:
   only:
     - master
-    - gh-pages
 before_install:
   - chmod +x deploy-docs.sh
 install:
