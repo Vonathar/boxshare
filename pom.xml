@@ -20,6 +20,27 @@
     </properties>
     <dependencies>
 
+      <dependency>
+        <artifactId>bt-core</artifactId>
+        <groupId>com.github.atomashpolskiy</groupId>
+        <version>1.9</version>
+      </dependency>
+      <dependency>
+        <artifactId>bt-http-tracker-client</artifactId>
+        <groupId>com.github.atomashpolskiy</groupId>
+        <version>1.9</version>
+      </dependency>
+      <dependency>
+        <artifactId>bt-dht</artifactId>
+        <groupId>com.github.atomashpolskiy</groupId>
+        <version>1.9</version>
+      </dependency>
+      <dependency>
+        <artifactId>bt-upnp</artifactId>
+        <groupId>com.github.atomashpolskiy</groupId>
+        <version>1.9</version>
+      </dependency>
+
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
