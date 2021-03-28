@@ -4,7 +4,7 @@ if [ "$TRAVIS_REPO_SLUG" == "Vonathar/boxshare" ] && [ "$TRAVIS_PULL_REQUEST" ==
 
   echo -e "Publishing javadoc...\n"
 
-  cp -R target/apidocs $HOME/javadoc-latest
+  cp -R target/apidocs $HOME/docs-latest
 
   cd $HOME
   git config --global user.email "travis@travis-ci.org"
@@ -12,8 +12,8 @@ if [ "$TRAVIS_REPO_SLUG" == "Vonathar/boxshare" ] && [ "$TRAVIS_PULL_REQUEST" ==
   git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/Vonathar/boxshare gh-pages >/dev/null
 
   cd gh-pages
-  git rm -rf ./javadoc
-  cp -Rf $HOME/javadoc-latest ./javadoc
+  git rm -rf ./docs
+  cp -Rf $HOME/docs-latest ./docs
   git add -f .
   git commit -m "Add latest documentation. Travis build #: $TRAVIS_BUILD_NUMBER"
   git push -fq origin gh-pages >/dev/null
