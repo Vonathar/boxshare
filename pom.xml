@@ -61,6 +61,14 @@
                     <show>private</show>
                     <nohelp>true</nohelp>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>

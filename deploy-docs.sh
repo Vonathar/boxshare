@@ -4,7 +4,7 @@ if [ "$TRAVIS_REPO_SLUG" == "Vonathar/boxshare" ] && [ "$TRAVIS_PULL_REQUEST" ==
 
   echo -e "Publishing javadoc...\n"
 
-  cp -R target/site/apidocs $HOME/javadoc-latest
+  cp -R target/apidocs $HOME/javadoc-latest
 
   cd $HOME
   git config --global user.email "travis@travis-ci.org"
