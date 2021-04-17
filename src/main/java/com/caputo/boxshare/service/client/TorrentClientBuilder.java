@@ -47,7 +47,7 @@ public class TorrentClientBuilder {
   /**
    * Updates the file size in the tailer using the torrent's parsed metadata.
    *
-   * @return the callback for BtClient's afterTorrentFetched.
+   * @return the callback for BtClient's afterTorrentFetched method.
    */
   private Consumer<Torrent> updateTailerFileSize() {
     return torrent -> torrentFileTailer.setSize((int) torrent.getSize());
