@@ -63,6 +63,7 @@ public class TorrentClientBuilder {
     return torrent -> {
       torrentFileTailer.setSize((int) torrent.getSize());
       torrentFileTailer.setTorrentFile(findVideoFile(torrent));
+      torrentFileTailer.start();
     };
   }
 

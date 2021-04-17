@@ -52,11 +52,6 @@ public class TorrentClient {
       int peers = state.getConnectedPeers().size();
       int downloaded = (state.getPiecesComplete() / state.getPiecesTotal()) * 100;
       logger.info("Peers: {}, Downloaded: {}", peers, downloaded);
-      if (state.getPiecesComplete() > 0) {
-        if (!torrentFileTailer.isTailing()) {
-          torrentFileTailer.start();
-        }
-      }
       if (state.getPiecesRemaining() == 0) {
         client.stop();
       }

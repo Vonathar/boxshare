@@ -3,6 +3,7 @@ package com.caputo.boxshare.service.client;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import bt.runtime.BtClient;
 import com.caputo.boxshare.service.TorrentFileTailer;
@@ -89,5 +90,20 @@ class TorrentClientBuilderTest {
             1000)
         .join();
     assertEquals(MAGNET_SIZE, torrentFileTailer.getSize());
+  }
+
+  @Test
+  void build_ShouldStartTorrentFileTailer() {
+    BtClient client = clientBuilder.setMagnetUrl(MAGNET_URL).build();
+    client
+        .startAsync(
+            state -> {
+              if (state.getPiecesComplete() > 0) {
+                client.stop();
+              }
+            },
+            1000)
+        .join();
+    assertTrue(torrentFileTailer.isTailing());
   }
 }
