@@ -3,10 +3,16 @@ package com.caputo.boxshare.service.client;
 import bt.Bt;
 import bt.data.Storage;
 import bt.metainfo.Torrent;
+import bt.metainfo.TorrentFile;
 import bt.runtime.BtClient;
 import bt.runtime.Config;
+import com.caputo.boxshare.enumerable.VideoExtension;
 import com.caputo.boxshare.service.TorrentFileTailer;
+import java.io.File;
+import java.nio.file.Path;
+import java.util.List;
 import java.util.function.Consumer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,6 +25,10 @@ public class TorrentClientBuilder {
   final Config config;
   final Storage storage;
   private final TorrentFileTailer torrentFileTailer;
+
+  @Value("${torrent.download.directory}")
+  private String DOWNLOADS_DIR;
+
   private String magnetUrl;
 
   public TorrentClientBuilder(TorrentFileTailer torrentFileTailer, Config config, Storage storage) {
@@ -34,7 +44,7 @@ public class TorrentClientBuilder {
    */
   public BtClient build() {
     return Bt.client()
-        .afterTorrentFetched(updateTailerFileSize())
+        .afterTorrentFetched(afterTorrentFetched())
         .config(config)
         .magnet(magnetUrl)
         .sequentialSelector()
@@ -45,12 +55,35 @@ public class TorrentClientBuilder {
   }
 
   /**
-   * Updates the file size in the tailer using the torrent's parsed metadata.
+   * Updates the tailer with the newly parsed metadata.
    *
    * @return the callback for BtClient's afterTorrentFetched method.
    */
-  private Consumer<Torrent> updateTailerFileSize() {
-    return torrent -> torrentFileTailer.setSize((int) torrent.getSize());
+  private Consumer<Torrent> afterTorrentFetched() {
+    return torrent -> {
+      torrentFileTailer.setSize((int) torrent.getSize());
+      torrentFileTailer.setTorrentFile(findVideoFile(torrent));
+    };
+  }
+
+  /**
+   * Finds the video file in a torrent's path elements.
+   *
+   * @param torrent a torrent file with loaded metadata.
+   * @return the video file.
+   */
+  private File findVideoFile(Torrent torrent) {
+    for (TorrentFile file : torrent.getFiles()) {
+      List<String> pathElements = file.getPathElements();
+      String fileName = pathElements.get(pathElements.size() - 1);
+      int i = fileName.lastIndexOf('.');
+      String extension = fileName.substring(i + 1);
+      if (VideoExtension.isValidEnum(extension)) {
+        Path filePath = Path.of(DOWNLOADS_DIR, torrent.getName(), fileName);
+        return new File(String.valueOf(filePath));
+      }
+    }
+    return null;
   }
 
   /**
