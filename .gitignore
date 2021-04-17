@@ -36,3 +36,6 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/test/resources/downloads/
+/src/main/resources/downloads/
+/logs/
