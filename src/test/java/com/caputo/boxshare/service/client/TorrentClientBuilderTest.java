@@ -1,8 +1,8 @@
 package com.caputo.boxshare.service.client;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import bt.runtime.BtClient;
 import com.caputo.boxshare.service.TorrentFileTailer;
@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)
@@ -30,8 +31,14 @@ class TorrentClientBuilderTest {
   @Value("${torrent.download.directory}")
   File DOWNLOADS_DIR;
 
-  @Value("${torrent.magnet.small}")
+  @Value("${torrent.magnet.small.url}")
   String MAGNET_URL;
+
+  @Value("${torrent.magnet.small.name}")
+  String MAGNET_NAME;
+
+  @Value("${torrent.magnet.small.size}")
+  int MAGNET_SIZE;
 
   @BeforeAll
   public void cleanDownloadsDir() throws IOException {
@@ -52,16 +59,35 @@ class TorrentClientBuilderTest {
   }
 
   @Test
-  void build_ShouldSetFileSizeInTorrentFileTailerWhenAvailable() {
+  void build_ShouldSetTorrentFileInTorrentFileTailer() {
     BtClient client = clientBuilder.setMagnetUrl(MAGNET_URL).build();
     client
         .startAsync(
             state -> {
               if (state.getPiecesComplete() > 0) {
-                assertTrue(torrentFileTailer.isTailing());
+                client.stop();
               }
             },
             1000)
         .join();
+    File torrentFile =
+        (File)
+            ReflectionTestUtils.getField(torrentFileTailer, TorrentFileTailer.class, "torrentFile");
+    assertEquals(MAGNET_NAME, torrentFile.getName());
+  }
+
+  @Test
+  void build_ShouldSetTorrentSizeInTorrentFileTailer() {
+    BtClient client = clientBuilder.setMagnetUrl(MAGNET_URL).build();
+    client
+        .startAsync(
+            state -> {
+              if (state.getPiecesComplete() > 0) {
+                client.stop();
+              }
+            },
+            1000)
+        .join();
+    assertEquals(MAGNET_SIZE, torrentFileTailer.getSize());
   }
 }
