@@ -1,128 +1,141 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <artifactId>boxshare</artifactId>
+  <build>
+    <plugins>
+
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <nohelp>true</nohelp>
+          <show>private</show>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <id>attach-javadocs</id>
+          </execution>
+        </executions>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>3.2.0</version>
+      </plugin>
+
+      <plugin>
+        <artifactId>spring-boot-maven-plugin</artifactId>
         <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.3</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
-    <groupId>com.caputo</groupId>
-    <artifactId>boxshare</artifactId>
-    <version>0.1.0</version>
-    <name>boxshare</name>
-    <description>A movie streaming service for local networks.</description>
-    <packaging>jar</packaging>
-    <properties>
-        <java.version>11</java.version>
-    </properties>
-    <dependencies>
+      </plugin>
 
-      <dependency>
-        <artifactId>bt-core</artifactId>
-        <groupId>com.github.atomashpolskiy</groupId>
-        <version>1.9</version>
-      </dependency>
-      <dependency>
-        <artifactId>bt-http-tracker-client</artifactId>
-        <groupId>com.github.atomashpolskiy</groupId>
-        <version>1.9</version>
-      </dependency>
-      <dependency>
-        <artifactId>bt-dht</artifactId>
-        <groupId>com.github.atomashpolskiy</groupId>
-        <version>1.9</version>
-      </dependency>
-      <dependency>
-        <artifactId>bt-upnp</artifactId>
-        <groupId>com.github.atomashpolskiy</groupId>
-        <version>1.9</version>
-      </dependency>
+      <plugin>
+        <artifactId>coveralls-maven-plugin</artifactId>
+        <groupId>org.eluder.coveralls</groupId>
+        <version>4.3.0</version>
+      </plugin>
 
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.8.0</version>
-        </dependency>
+      <plugin>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <goals>
+              <goal>report</goal>
+            </goals>
+            <id>report</id>
+            <phase>test</phase>
+          </execution>
+        </executions>
+        <groupId>org.jacoco</groupId>
+        <version>0.8.6</version>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
 
-        <dependency>
-            <groupId>org.jsoup</groupId>
-            <artifactId>jsoup</artifactId>
-            <version>1.13.1</version>
-        </dependency>
+    <dependency>
+      <artifactId>commons-lang3</artifactId>
+      <groupId>org.apache.commons</groupId>
+      <version>3.12.0</version>
+    </dependency>
 
-        <dependency>
-            <groupId>com.google.http-client</groupId>
-            <artifactId>google-http-client</artifactId>
-            <version>1.39.0</version>
-        </dependency>
+    <dependency>
+      <artifactId>commons-compress</artifactId>
+      <groupId>org.apache.commons</groupId>
+      <version>1.20</version>
+    </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+    <dependency>
+      <artifactId>bt-core</artifactId>
+      <groupId>com.github.atomashpolskiy</groupId>
+      <version>1.9</version>
+    </dependency>
+    <dependency>
+      <artifactId>bt-http-tracker-client</artifactId>
+      <groupId>com.github.atomashpolskiy</groupId>
+      <version>1.9</version>
+    </dependency>
+    <dependency>
+      <artifactId>bt-dht</artifactId>
+      <groupId>com.github.atomashpolskiy</groupId>
+      <version>1.9</version>
+    </dependency>
+    <dependency>
+      <artifactId>bt-upnp</artifactId>
+      <groupId>com.github.atomashpolskiy</groupId>
+      <version>1.9</version>
+    </dependency>
 
-    <build>
-        <plugins>
+    <dependency>
+      <artifactId>commons-io</artifactId>
+      <groupId>commons-io</groupId>
+      <version>2.8.0</version>
+    </dependency>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <show>private</show>
-                    <nohelp>true</nohelp>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+    <dependency>
+      <artifactId>jsoup</artifactId>
+      <groupId>org.jsoup</groupId>
+      <version>1.13.1</version>
+    </dependency>
 
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
+    <dependency>
+      <artifactId>google-http-client</artifactId>
+      <groupId>com.google.http-client</groupId>
+      <version>1.39.0</version>
+    </dependency>
 
-            <plugin>
-                <groupId>org.eluder.coveralls</groupId>
-                <artifactId>coveralls-maven-plugin</artifactId>
-                <version>4.3.0</version>
-            </plugin>
+    <dependency>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
 
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.6</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+    <dependency>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <description>A movie streaming service for local networks.</description>
+  <groupId>com.caputo</groupId>
+  <modelVersion>4.0.0</modelVersion>
+  <name>boxshare</name>
+  <packaging>jar</packaging>
+  <parent>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <groupId>org.springframework.boot</groupId>
+    <relativePath/>
+    <version>2.4.3</version> <!-- lookup parent from repository -->
+  </parent>
+  <properties>
+    <java.version>11</java.version>
+  </properties>
+
+  <version>0.1.0</version>
 
 </project>
