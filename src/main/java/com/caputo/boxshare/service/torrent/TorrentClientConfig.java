@@ -1,4 +1,4 @@
-package com.caputo.boxshare.service.client;
+package com.caputo.boxshare.service.torrent;
 
 import bt.data.Storage;
 import bt.data.file.FileSystemStorage;

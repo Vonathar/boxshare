@@ -1,4 +1,4 @@
-package com.caputo.boxshare.service.client;
+package com.caputo.boxshare.service.torrent;
 
 import bt.Bt;
 import bt.data.Storage;
@@ -7,7 +7,6 @@ import bt.metainfo.TorrentFile;
 import bt.runtime.BtClient;
 import bt.runtime.Config;
 import com.caputo.boxshare.enumerable.VideoExtension;
-import com.caputo.boxshare.service.TorrentFileTailer;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.List;

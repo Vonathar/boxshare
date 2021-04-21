@@ -1,8 +1,7 @@
-package com.caputo.boxshare.service.client;
+package com.caputo.boxshare.service.torrent;
 
 import bt.runtime.BtClient;
 import bt.torrent.TorrentSessionState;
-import com.caputo.boxshare.service.TorrentFileTailer;
 import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

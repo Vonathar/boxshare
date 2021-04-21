@@ -1,4 +1,4 @@
-package com.caputo.boxshare.service.client;
+package com.caputo.boxshare.service.torrent;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import bt.runtime.BtClient;
-import com.caputo.boxshare.service.TorrentFileTailer;
 import java.io.File;
 import java.io.IOException;
 import org.apache.commons.io.FileUtils;
