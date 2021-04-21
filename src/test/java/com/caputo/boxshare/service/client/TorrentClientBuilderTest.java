@@ -89,7 +89,7 @@ class TorrentClientBuilderTest {
             },
             1000)
         .join();
-    assertEquals(MAGNET_SIZE, torrentFileTailer.getSize());
+    assertEquals(MAGNET_SIZE, torrentFileTailer.getTorrentSize());
   }
 
   @Test

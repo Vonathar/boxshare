@@ -61,7 +61,7 @@ public class TorrentClientBuilder {
    */
   private Consumer<Torrent> afterTorrentFetched() {
     return torrent -> {
-      torrentFileTailer.setSize((int) torrent.getSize());
+      torrentFileTailer.setTorrentSize((int) torrent.getSize());
       torrentFileTailer.setTorrentFile(findVideoFile(torrent));
       torrentFileTailer.start();
     };
