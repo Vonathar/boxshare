@@ -23,6 +23,7 @@ public class TorrentClientBuilder {
 
   final Config config;
   final Storage storage;
+  final TorrentMetadata torrentMetadata;
   private final TorrentFileTailer torrentFileTailer;
 
   @Value("${torrent.download.directory}")
@@ -30,10 +31,15 @@ public class TorrentClientBuilder {
 
   private String magnetUrl;
 
-  public TorrentClientBuilder(TorrentFileTailer torrentFileTailer, Config config, Storage storage) {
+  public TorrentClientBuilder(
+      TorrentFileTailer torrentFileTailer,
+      Config config,
+      Storage storage,
+      TorrentMetadata torrentMetadata) {
     this.torrentFileTailer = torrentFileTailer;
     this.config = config;
     this.storage = storage;
+    this.torrentMetadata = torrentMetadata;
   }
 
   /**
@@ -60,8 +66,8 @@ public class TorrentClientBuilder {
    */
   private Consumer<Torrent> afterTorrentFetched() {
     return torrent -> {
-      torrentFileTailer.setTorrentSize((int) torrent.getSize());
-      torrentFileTailer.setTorrentFile(findVideoFile(torrent));
+      torrentMetadata.setSize((int) torrent.getSize());
+      torrentMetadata.setFile(findVideoFile(torrent));
       torrentFileTailer.start();
     };
   }
@@ -79,6 +85,7 @@ public class TorrentClientBuilder {
       int i = fileName.lastIndexOf('.');
       String extension = fileName.substring(i + 1);
       if (VideoExtension.isValidEnum(extension)) {
+        torrentMetadata.setExtension(extension);
         Path filePath = Path.of(DOWNLOADS_DIR, torrent.getName(), fileName);
         return new File(String.valueOf(filePath));
       }

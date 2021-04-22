@@ -12,6 +12,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -23,6 +24,7 @@ class TorrentFileTailerTest {
   private static String filePath;
   private final int FILE_SIZE = 5242880; // 5,242,880
   private final int PIECE_SIZE = 1048576; // 1,048,576
+  @Autowired private TorrentMetadata torrentMetadata;
 
   @BeforeEach
   void initDownloadDir(@Value("${torrent.download.directory}") Path downloadsDir) throws Exception {
@@ -38,9 +40,9 @@ class TorrentFileTailerTest {
 
   @Test
   void run_ShouldTailTorrentFileUntilCompletion() throws Exception {
-    TorrentFileTailer torrentFileTailer = new TorrentFileTailer();
-    torrentFileTailer.setTorrentFile(new File(filePath));
-    torrentFileTailer.setTorrentSize(FILE_SIZE);
+    TorrentFileTailer torrentFileTailer = new TorrentFileTailer(torrentMetadata);
+    torrentMetadata.setFile(new File(filePath));
+    torrentMetadata.setSize(FILE_SIZE);
     TestListener listener = new TestListener();
     torrentFileTailer.setListener(listener);
     torrentFileTailer.start();
@@ -62,9 +64,9 @@ class TorrentFileTailerTest {
 
   @Test
   void run_HangingDownload_ShouldTailTorrentFileUntilCompletion() throws Exception {
-    TorrentFileTailer torrentFileTailer = new TorrentFileTailer();
-    torrentFileTailer.setTorrentFile(new File(filePath));
-    torrentFileTailer.setTorrentSize(FILE_SIZE);
+    TorrentFileTailer torrentFileTailer = new TorrentFileTailer(torrentMetadata);
+    torrentMetadata.setFile(new File(filePath));
+    torrentMetadata.setSize(FILE_SIZE);
     TestListener listener = new TestListener();
     torrentFileTailer.setListener(listener);
     torrentFileTailer.start();
@@ -92,9 +94,9 @@ class TorrentFileTailerTest {
 
   @Test
   void run_IrregularIncomingByteCount_ShouldTailTorrentFileUntilCompletion() throws Exception {
-    TorrentFileTailer torrentFileTailer = new TorrentFileTailer();
-    torrentFileTailer.setTorrentFile(new File(filePath));
-    torrentFileTailer.setTorrentSize(FILE_SIZE);
+    TorrentFileTailer torrentFileTailer = new TorrentFileTailer(torrentMetadata);
+    torrentMetadata.setFile(new File(filePath));
+    torrentMetadata.setSize(FILE_SIZE);
     TestListener listener = new TestListener();
     torrentFileTailer.setListener(listener);
     torrentFileTailer.start();

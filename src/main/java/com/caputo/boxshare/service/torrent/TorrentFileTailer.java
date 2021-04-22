@@ -13,25 +13,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class TorrentFileTailer extends Thread {
 
+  final TorrentMetadata torrentMetadata;
   private boolean isTailing = true;
-  private File torrentFile;
   private TorrentFileTailerListener listener;
-  private int torrentSize = 0;
+
+  public TorrentFileTailer(TorrentMetadata torrentMetadata) {
+    this.torrentMetadata = torrentMetadata;
+  }
 
   public boolean isTailing() {
     return isTailing;
-  }
-
-  public int getTorrentSize() {
-    return torrentSize;
-  }
-
-  public void setTorrentSize(int size) {
-    this.torrentSize = size;
-  }
-
-  public void setTorrentFile(File torrentFile) {
-    this.torrentFile = torrentFile;
   }
 
   public void setListener(TorrentFileTailerListener listener) {
@@ -45,6 +36,8 @@ public class TorrentFileTailer extends Thread {
    */
   public void run() {
     try {
+      int torrentSize = torrentMetadata.getSize();
+      File torrentFile = torrentMetadata.getFile();
       while (!torrentFile.exists()) {
         sleep(1000);
       }

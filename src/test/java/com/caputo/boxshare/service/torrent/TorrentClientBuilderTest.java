@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.util.ReflectionTestUtils;
 
 @SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)
@@ -27,6 +26,7 @@ class TorrentClientBuilderTest {
 
   @Autowired TorrentClientBuilder clientBuilder;
   @Autowired TorrentFileTailer torrentFileTailer;
+  @Autowired TorrentMetadata torrentMetadata;
 
   @Value("${torrent.download.directory}")
   File DOWNLOADS_DIR;
@@ -59,7 +59,7 @@ class TorrentClientBuilderTest {
   }
 
   @Test
-  void build_ShouldSetTorrentFileInTorrentFileTailer() {
+  void build_ShouldSetTorrentFileInTorrentMetadata() {
     BtClient client = clientBuilder.setMagnetUrl(MAGNET_URL).build();
     client
         .startAsync(
@@ -70,14 +70,12 @@ class TorrentClientBuilderTest {
             },
             1000)
         .join();
-    File torrentFile =
-        (File)
-            ReflectionTestUtils.getField(torrentFileTailer, TorrentFileTailer.class, "torrentFile");
+    File torrentFile = torrentMetadata.getFile();
     assertEquals(MAGNET_NAME, torrentFile.getName());
   }
 
   @Test
-  void build_ShouldSetTorrentSizeInTorrentFileTailer() {
+  void build_ShouldSetTorrentSizeInTorrentMetadata() {
     BtClient client = clientBuilder.setMagnetUrl(MAGNET_URL).build();
     client
         .startAsync(
@@ -88,7 +86,7 @@ class TorrentClientBuilderTest {
             },
             1000)
         .join();
-    assertEquals(MAGNET_SIZE, torrentFileTailer.getTorrentSize());
+    assertEquals(MAGNET_SIZE, torrentMetadata.getSize());
   }
 
   @Test
