@@ -66,7 +66,6 @@ public class TorrentClientBuilder {
    */
   private Consumer<Torrent> afterTorrentFetched() {
     return torrent -> {
-      torrentMetadata.setSize((int) torrent.getSize());
       torrentMetadata.setFile(findVideoFile(torrent));
       torrentFileTailer.start();
     };
@@ -86,6 +85,7 @@ public class TorrentClientBuilder {
       String extension = fileName.substring(i + 1);
       if (VideoExtension.isValidEnum(extension)) {
         torrentMetadata.setExtension(extension);
+        torrentMetadata.setSize((int) file.getSize());
         Path filePath = Path.of(DOWNLOADS_DIR, torrent.getName(), fileName);
         return new File(String.valueOf(filePath));
       }
