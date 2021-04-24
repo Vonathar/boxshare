@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class TorrentMetadata {
 
-  private String name;
   private int size;
   private File file;
   private VideoExtension extension;
@@ -38,5 +37,9 @@ public class TorrentMetadata {
 
   public void setExtension(String extension) {
     this.extension = VideoExtension.valueOf(extension.toUpperCase());
+  }
+
+  public boolean isReady() {
+    return size != 0 && file != null && extension != null;
   }
 }
