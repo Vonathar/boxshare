@@ -1,5 +1,6 @@
 package com.caputo.boxshare.service.torrent;
 
+import com.caputo.boxshare.enumerable.VideoExtension;
 import java.io.File;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +14,7 @@ public class TorrentMetadata {
   private String name;
   private int size;
   private File file;
-  private String extension;
+  private VideoExtension extension;
 
   public int getSize() {
     return size;
@@ -31,11 +32,11 @@ public class TorrentMetadata {
     this.file = file;
   }
 
-  public String getExtension() {
+  public VideoExtension getExtension() {
     return extension;
   }
 
   public void setExtension(String extension) {
-    this.extension = extension;
+    this.extension = VideoExtension.valueOf(extension.toUpperCase());
   }
 }

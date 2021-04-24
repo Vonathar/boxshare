@@ -6,9 +6,15 @@ package com.caputo.boxshare.enumerable;
  * see {@link com.caputo.boxshare.service.torrent.TorrentClientBuilder}
  */
 public enum VideoExtension {
-  MKV,
-  AVI,
-  MP4;
+  MKV("video/x-matroska"),
+  AVI("video/x-msvideo"),
+  MP4("video/mp4");
+
+  public final String mimeType;
+
+  VideoExtension(String mimeType) {
+    this.mimeType = mimeType;
+  }
 
   /**
    * Checks whether a given string represents any value of this enum.
