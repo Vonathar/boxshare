@@ -65,13 +65,12 @@ class TorrentClientBuilderTest {
         .startAsync(
             state -> {
               if (state.getPiecesComplete() > 0) {
+                assertEquals(MAGNET_NAME, torrentMetadata.getFile().getName());
                 client.stop();
               }
             },
             1000)
         .join();
-    File torrentFile = torrentMetadata.getFile();
-    assertEquals(MAGNET_NAME, torrentFile.getName());
   }
 
   @Test
@@ -81,12 +80,12 @@ class TorrentClientBuilderTest {
         .startAsync(
             state -> {
               if (state.getPiecesComplete() > 0) {
+                assertEquals(MAGNET_SIZE, torrentMetadata.getSize());
                 client.stop();
               }
             },
             1000)
         .join();
-    assertEquals(MAGNET_SIZE, torrentMetadata.getSize());
   }
 
   @Test
@@ -96,11 +95,11 @@ class TorrentClientBuilderTest {
         .startAsync(
             state -> {
               if (state.getPiecesComplete() > 0) {
+                assertTrue(torrentFileTailer.isTailing());
                 client.stop();
               }
             },
             1000)
         .join();
-    assertTrue(torrentFileTailer.isTailing());
   }
 }
