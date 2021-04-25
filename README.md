@@ -20,7 +20,9 @@ with any unblocked proxy URL.
 
 You can run Boxshare by either double clicking the jar file, or from the terminal (recommended):
 
-`java -jar boxshare-0.1.0.jar`
+<code>
+java -jar boxshare-<em>VERSION_NUMBER</em>.jar
+</code>
 
 The application will start on port 8080 by default, but this can be reassigned by changing '
 server.port' in the [application.properties](src/main/resources/application.properties) file. You
